@@ -82,6 +82,7 @@ function StarField() {
         }
       `}</style>
       <div
+        className="starfield-background"
         style={{
           position: "fixed",
           top: 0,
@@ -96,6 +97,11 @@ function StarField() {
             radial-gradient(ellipse at bottom right, rgba(168, 85, 247, 0.08) 0%, transparent 50%),
             radial-gradient(ellipse at bottom left, rgba(236, 72, 153, 0.08) 0%, transparent 50%)
           `,
+          WebkitFontSmoothing: "antialiased",
+          MozOsxFontSmoothing: "grayscale",
+          transform: "translateZ(0)",
+          willChange: "transform",
+          backfaceVisibility: "hidden",
         }}
       >
         {/* Aurora-like background effects */}
@@ -111,6 +117,9 @@ function StarField() {
             borderRadius: "50%",
             filter: "blur(60px)",
             pointerEvents: "none",
+            transform: "translateZ(0)",
+            willChange: "transform, filter",
+            backfaceVisibility: "hidden",
           }}
         />
         <div
@@ -126,6 +135,9 @@ function StarField() {
             filter: "blur(80px)",
             pointerEvents: "none",
             animationDelay: "5s",
+            transform: "translateZ(0)",
+            willChange: "transform, filter",
+            backfaceVisibility: "hidden",
           }}
         />
         {stars.map((star) => (
@@ -143,6 +155,9 @@ function StarField() {
               animation: `twinkle ${star.duration}s ease-in-out infinite, drift ${star.duration * 3}s ease-in-out infinite`,
               animationDelay: `${star.delay}s`,
               opacity: 0.8,
+              transform: "translateZ(0)",
+              willChange: "transform, opacity",
+              backfaceVisibility: "hidden",
             }}
           />
         ))}
