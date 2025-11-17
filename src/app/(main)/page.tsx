@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import {
   Heading,
   Text,
@@ -26,48 +24,16 @@ function StarField() {
   const [stars, setStars] = useState<Array<{ id: number; x: number; y: number; delay: number; duration: number; size: number }>>([]);
 
   useEffect(() => {
-    // Generate random stars with varying sizes - adjust count based on screen size
-    const updateStars = () => {
-      if (typeof window === 'undefined') return;
-      
-      const width = window.innerWidth;
-      let starCount = 150; // Default
-      
-      if (width < 768) {
-        starCount = 80; // Mobile
-      } else if (width >= 3840) {
-        starCount = 300; // 4K displays
-      } else if (width >= 2560) {
-        starCount = 200; // 2K displays
-      }
-      
-      const newStars = Array.from({ length: starCount }, (_, i) => ({
-        id: i,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        delay: Math.random() * 3,
-        duration: 1 + Math.random() * 2,
-        size: Math.random() * 2 + 1,
-      }));
-      setStars(newStars);
-    };
-
-    updateStars();
-    
-    // Update on resize (debounced)
-    let resizeTimeout: NodeJS.Timeout;
-    const handleResize = () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(updateStars, 250);
-    };
-
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', handleResize);
-      return () => {
-        window.removeEventListener('resize', handleResize);
-        clearTimeout(resizeTimeout);
-      };
-    }
+    // Generate random stars with varying sizes
+    const newStars = Array.from({ length: 150 }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      delay: Math.random() * 3,
+      duration: 1 + Math.random() * 2,
+      size: Math.random() * 2 + 1,
+    }));
+    setStars(newStars);
   }, []);
 
   return (
@@ -93,7 +59,6 @@ function StarField() {
         }
       `}</style>
       <div
-        className="starfield-background"
         style={{
           position: "fixed",
           top: 0,
@@ -108,11 +73,6 @@ function StarField() {
             radial-gradient(ellipse at bottom right, rgba(168, 85, 247, 0.08) 0%, transparent 50%),
             radial-gradient(ellipse at bottom left, rgba(236, 72, 153, 0.08) 0%, transparent 50%)
           `,
-          WebkitFontSmoothing: "antialiased",
-          MozOsxFontSmoothing: "grayscale",
-          transform: "translateZ(0)",
-          willChange: "transform",
-          backfaceVisibility: "hidden",
         }}
       >
         {/* Aurora-like background effects */}
@@ -128,9 +88,6 @@ function StarField() {
             borderRadius: "50%",
             filter: "blur(60px)",
             pointerEvents: "none",
-            transform: "translateZ(0)",
-            willChange: "transform, filter",
-            backfaceVisibility: "hidden",
           }}
         />
         <div
@@ -146,9 +103,6 @@ function StarField() {
             filter: "blur(80px)",
             pointerEvents: "none",
             animationDelay: "5s",
-            transform: "translateZ(0)",
-            willChange: "transform, filter",
-            backfaceVisibility: "hidden",
           }}
         />
         {stars.map((star) => (
@@ -166,9 +120,6 @@ function StarField() {
               animation: `twinkle ${star.duration}s ease-in-out infinite, drift ${star.duration * 3}s ease-in-out infinite`,
               animationDelay: `${star.delay}s`,
               opacity: 0.8,
-              transform: "translateZ(0)",
-              willChange: "transform, opacity",
-              backfaceVisibility: "hidden",
             }}
           />
         ))}
@@ -915,15 +866,6 @@ export default function Home() {
         body, html {
           overflow-x: hidden;
           max-width: 100vw;
-          /* Global optimizations for all devices */
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-          text-rendering: optimizeLegibility;
-        }
-        /* Apply font smoothing to all elements */
-        * {
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
         }
       `}</style>
       <ThemeToggle />
@@ -996,8 +938,6 @@ export default function Home() {
           </Column>
         </Column>
       </div>
-      <Analytics />
-      <SpeedInsights />
     </>
   );
 }

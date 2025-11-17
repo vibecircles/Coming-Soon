@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "export": "next export",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -11,8 +12,6 @@
   },
   "dependencies": {
     "@once-ui-system/core": "^1.4.12",
-    "@vercel/analytics": "^1.5.0",
-    "@vercel/speed-insights": "^1.2.0",
     "classnames": "^2.5.1",
     "next": "15.3.2",
     "react": "19.0.0",

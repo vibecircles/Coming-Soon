@@ -8,16 +8,6 @@ import { baseURL, meta, schema, fonts, effects, style, dataStyle } from "@/resou
 import { Meta, Schema,  Column, Flex, opacity, SpacingToken, Background} from "@once-ui-system/core";
 import { Providers } from '@/components/Providers';
 
-export async function generateViewport() {
-  return {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-    userScalable: true,
-    viewportFit: 'cover',
-  };
-}
-
 export async function generateMetadata() {
   const metadata = Meta.generate({
     title: meta.home.title,
