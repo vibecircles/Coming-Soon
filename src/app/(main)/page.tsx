@@ -24,16 +24,37 @@ function StarField() {
   const [stars, setStars] = useState<Array<{ id: number; x: number; y: number; delay: number; duration: number; size: number }>>([]);
 
   useEffect(() => {
-    // Generate random stars with varying sizes
-    const newStars = Array.from({ length: 150 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      delay: Math.random() * 3,
-      duration: 1 + Math.random() * 2,
-      size: Math.random() * 2 + 1,
-    }));
-    setStars(newStars);
+    // Generate random stars with varying sizes - reduce count on mobile
+    const updateStars = () => {
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+      const starCount = isMobile ? 80 : 150;
+      const newStars = Array.from({ length: starCount }, (_, i) => ({
+        id: i,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        delay: Math.random() * 3,
+        duration: 1 + Math.random() * 2,
+        size: Math.random() * 2 + 1,
+      }));
+      setStars(newStars);
+    };
+
+    updateStars();
+    
+    // Update on resize (debounced)
+    let resizeTimeout: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(updateStars, 250);
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', handleResize);
+      return () => {
+        window.removeEventListener('resize', handleResize);
+        clearTimeout(resizeTimeout);
+      };
+    }
   }, []);
 
   return (
