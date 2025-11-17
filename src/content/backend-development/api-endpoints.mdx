@@ -1,0 +1,312 @@
+---
+title: "API Endpoints"
+summary: "Request/response examples for all API endpoints"
+updatedAt: "2025-01-27"
+navLabel: "API Endpoints"
+navIcon: "api"
+---
+
+# API Endpoints
+
+Complete reference for all API endpoints with request and response examples.
+
+## Authentication Endpoints
+
+### Register User
+
+```
+POST /auth/register
+Content-Type: application/json
+
+Body:
+{
+  "email": "user@example.com",
+  "password": "password123",
+  "firstname": "John",
+  "lastname": "Doe"
+}
+
+Response (200):
+{
+  "user": {
+    "_id": "user_id",
+    "email": "user@example.com",
+    "firstname": "John",
+    "lastname": "Doe",
+    ...
+  },
+  "token": "jwt_token_string"
+}
+```
+
+### Login User
+
+```
+POST /auth/login
+Content-Type: application/json
+
+Body:
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+
+Response (200):
+{
+  "user": {
+    "_id": "user_id",
+    "email": "user@example.com",
+    ...
+  },
+  "token": "jwt_token_string"
+}
+```
+
+---
+
+## User Endpoints
+
+### Get All Users
+
+```
+GET /user
+
+Response (200):
+[
+  {
+    "_id": "user_id_1",
+    "email": "user1@example.com",
+    "firstname": "John",
+    ...
+  },
+  {
+    "_id": "user_id_2",
+    "email": "user2@example.com",
+    ...
+  }
+]
+```
+
+### Get User by ID
+
+```
+GET /user/:id
+
+Response (200):
+{
+  "_id": "user_id",
+  "email": "user@example.com",
+  "firstname": "John",
+  "lastname": "Doe",
+  "profilePicture": "/images/profile.jpg",
+  ...
+}
+```
+
+### Update User
+
+```
+PUT /user/:id
+Headers: { "Authorization": "Bearer <token>" }
+Content-Type: application/json
+
+Body:
+{
+  "_id": "user_id",
+  "firstname": "Updated Name",
+  "about": "Updated bio",
+  "livesin": "New Location",
+  ...
+}
+
+Response (200):
+{
+  "user": { ...updatedUserObject },
+  "token": "new_jwt_token"
+}
+```
+
+### Delete User
+
+```
+DELETE /user/:id
+Headers: { "Authorization": "Bearer <token>" }
+Content-Type: application/json
+
+Body:
+{
+  "_id": "user_id",
+  "currentUserAdminStatus": false
+}
+
+Response (200):
+"User deleted successfully"
+```
+
+### Follow User
+
+```
+PUT /user/:id/follow
+Headers: { "Authorization": "Bearer <token>" }
+Content-Type: application/json
+
+Body:
+{
+  "_id": "current_user_id"
+}
+
+Response (200):
+"User Followed!"
+```
+
+### Unfollow User
+
+```
+PUT /user/:id/unfollow
+Headers: { "Authorization": "Bearer <token>" }
+Content-Type: application/json
+
+Body:
+{
+  "_id": "current_user_id"
+}
+
+Response (200):
+"User Unfollowed!"
+```
+
+---
+
+## Post Endpoints
+
+### Create Post
+
+```
+POST /post
+Content-Type: application/json
+
+Body:
+{
+  "userId": "user_id",
+  "desc": "Post description",
+  "image": "image_url"
+}
+
+Response (200):
+{
+  "_id": "post_id",
+  "userId": "user_id",
+  "desc": "Post description",
+  "image": "image_url",
+  "likes": [],
+  "createdAt": "...",
+  "updatedAt": "..."
+}
+```
+
+### Get Post
+
+```
+GET /post/:id
+
+Response (200):
+{
+  "_id": "post_id",
+  "userId": "user_id",
+  "desc": "Post description",
+  "image": "image_url",
+  "likes": ["user_id_1", "user_id_2"],
+  ...
+}
+```
+
+### Update Post
+
+```
+PUT /post/:id
+Content-Type: application/json
+
+Body:
+{
+  "userId": "user_id",
+  "desc": "Updated description"
+}
+
+Response (200):
+"Post Updated Successfully!"
+```
+
+### Delete Post
+
+```
+DELETE /post/:id
+Content-Type: application/json
+
+Body:
+{
+  "userId": "user_id"
+}
+
+Response (200):
+"Post deleted Successfully!"
+```
+
+### Like/Dislike Post
+
+```
+PUT /post/:id/like_dislike
+Content-Type: application/json
+
+Body:
+{
+  "userId": "user_id"
+}
+
+Response (200):
+"Post liked." or "Post unliked."
+```
+
+### Get Timeline
+
+```
+GET /post/:id/timeline
+
+Response (200):
+[
+  {
+    "_id": "post_id_1",
+    "userId": "user_id",
+    "desc": "Recent post",
+    ...
+    "createdAt": "..."
+  },
+  {
+    "_id": "post_id_2",
+    "userId": "followed_user_id",
+    ...
+    "createdAt": "..."
+  }
+]
+// Sorted by creation date (newest first)
+```
+
+---
+
+## Upload Endpoint
+
+### Upload File
+
+```
+POST /upload
+Content-Type: multipart/form-data
+
+Form Data:
+- file: <image_file>
+- name: "filename.jpg"
+
+Response (200):
+"File Upload Successfully"
+```
+
+**Note:** File is saved to `public/images/` directory with the name specified in the form data.
+

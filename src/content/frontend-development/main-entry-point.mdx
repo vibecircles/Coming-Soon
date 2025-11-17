@@ -1,0 +1,111 @@
+---
+title: "Main Entry Point"
+summary: "Application initialization and entry point configuration"
+updatedAt: "2025-01-27"
+navLabel: "Main Entry Point"
+navIcon: "code"
+---
+
+# Main Entry Point
+
+## `src/index.js`
+
+The application entry point initializes React, Redux store, and routing:
+
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import { Provider } from 'react-redux';
+import store from './store/ReduxStore.js';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route path='*' element={<App />} />
+        </Routes>
+      </BrowserRouter>
+    </Provider>
+  </React.StrictMode>
+);
+```
+
+## Initialization Flow
+
+1. **React DOM Root Creation**
+   - Creates a root using `createRoot` (React 18 API)
+   - Renders the application into the DOM element with id `root`
+
+2. **Redux Provider**
+   - Wraps the app with `<Provider>` to make Redux store available to all components
+   - Store is configured with Redux Thunk middleware and localStorage persistence
+
+3. **Browser Router**
+   - Enables client-side routing
+   - Wraps the application to provide routing context
+
+4. **App Component**
+   - Main application component that handles route definitions
+   - Contains authentication-based route guards
+
+## `src/App.js`
+
+The main App component handles routing and authentication:
+
+```javascript
+import { useSelector } from 'react-redux';
+import Auth from './Pages/auth/Auth';
+import Home from './Pages/home/Home';
+import Profile from './Pages/profile/Profile';
+import { Routes, Route, Navigate } from 'react-router-dom';
+
+function App() {
+  const user = useSelector((state) => state.authReducer.authData);
+
+  return (
+    <div className="App">
+      <div className="blur" style={{ top: '-18%', right: '0' }}></div>
+      <div className="blur" style={{ top: '36%', left: '-8rem' }}></div>
+
+      <Routes>
+        <Route path='/' element={user ? <Navigate to='home' /> : <Navigate to='auth' />} />
+        <Route path='/home' element={user ? <Home /> : <Navigate to='../auth' />} />
+        <Route path='/auth' element={user ? <Navigate to='../home' /> : <Auth />} />
+        <Route path='/profile/:id' element={user ? <Profile /> : <Navigate to='../auth' />} />
+      </Routes>
+    </div>
+  );
+}
+```
+
+## Route Configuration
+
+### Root Route (`/`)
+- Redirects authenticated users to `/home`
+- Redirects unauthenticated users to `/auth`
+
+### Home Route (`/home`)
+- Protected route - requires authentication
+- Shows the main feed page
+- Redirects to `/auth` if not authenticated
+
+### Auth Route (`/auth`)
+- Shows login/signup page
+- Redirects to `/home` if already authenticated
+
+### Profile Route (`/profile/:id`)
+- Protected route with dynamic user ID parameter
+- Shows user profile page
+- Redirects to `/auth` if not authenticated
+
+## Authentication Guards
+
+All routes check the Redux store for user authentication:
+- Uses `useSelector` to get `authData` from `authReducer`
+- Automatically redirects based on authentication state
+- Prevents unauthorized access to protected routes
+

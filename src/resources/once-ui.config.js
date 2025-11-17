@@ -1,5 +1,9 @@
-// IMPORTANT: Replace with your own domain address - it's used for SEO in meta tags and schema
-const baseURL = "https://vibecircles.com";
+const baseURL = "https://docs.once-ui.com";
+
+const routes = {
+  '/changelog':  true,
+  '/roadmap':    true,
+}
 
 // Import and set font for each variant
 import { Geist } from "next/font/google";
@@ -36,18 +40,17 @@ const fonts = {
   code: code,
 };
 
-// default customization applied to the HTML in the main layout.tsx
 const style = {
-  theme: "system", // dark | light | system
+  theme: "dark", // dark | light
   neutral: "gray", // sand | gray | slate
   brand: "blue", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
   accent: "indigo", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
-  solid: "contrast", // color | contrast | inverse
+  solid: "contrast", // color | contrast
   solidStyle: "flat", // flat | plastic
   border: "playful", // rounded | playful | conservative
-  surface: "filled", // filled | translucent
+  surface: "translucent", // filled | translucent
   transition: "all", // all | micro | macro
-  scaling: "100", // 90 | 95 | 100 | 105 | 110
+  scaling: "100"
 };
 
 const dataStyle = {
@@ -61,6 +64,29 @@ const dataStyle = {
     fill: "var(--neutral-on-background-weak)",
     fontSize: 11,
     line: false
+  },
+};
+
+const layout = {
+  // units are set in REM
+  header: {
+    width: 200, // max-width of the content inside the header
+  },
+  body: {
+    width: 200, // max-width of the body
+  },
+  sidebar: {
+    width: 17, // width of the sidebar
+    collapsible: false, // accordion or static render
+  },
+  content: {
+    width: 44, // width of the main content block
+  },
+  sideNav: {
+    width: 17, // width of the sideNav on document pages
+  },
+  footer: {
+    width: 44, // width of the content inside the footer
   },
 };
 
@@ -83,88 +109,86 @@ const effects = {
     opacity: 50,
   },
   dots: {
-    display: true,
-    size: "2",
+    display: false,
+    size: 2,
     color: "brand-on-background-weak",
-    opacity: 40,
+    opacity: 20,
   },
   lines: {
     display: false,
     color: "neutral-alpha-weak",
     opacity: 100,
-    thickness: 1,
-    angle: 45,
-    size: "8",
   },
   grid: {
     display: false,
     color: "neutral-alpha-weak",
     opacity: 100,
-    width: "2",
-    height: "2",
   },
 };
 
-// metadata for pages
+const social = [
+  // Links are automatically displayed.
+  // Import new icons in /once-ui/icons.ts
+  {
+    name: "Facebook",
+    icon: "facebook",
+    link: "https://www.facebook.com/profile.php?id=61577760104699",
+  },
+  {
+    name: "Instagram",
+    icon: "instagram",
+    link: "https://www.instagram.com/vibecircles/",
+  },
+  {
+    name: "Threads",
+    icon: "threads",
+    link: "https://www.threads.com/@vibecircles",
+  },
+  {
+    name: "X",
+    icon: "twitter",
+    link: "https://x.com/vibecircles",
+  },
+  {
+    name: "TikTok",
+    icon: "tiktok",
+    link: "https://www.tiktok.com/@vibecircles",
+  },
+  {
+    name: "Website",
+    icon: "openLink",
+    link: "https://www.vibecircles.co.za/",
+  }
+];
+
+const schema = {
+  logo: "",
+  type: "Organization",
+  name: "Magic Docs",
+  description: "Magic Docs is a simple and beautiful documentation template built with Once UI.",
+  email: "",
+  locale: "en_US"
+};
+
 const meta = {
   home: {
+    title: `Docs – ${schema.name}`,
+    description: schema.description,
     path: "/",
-    title: "VibeCircles - Talk. Laugh. Be Real. No filters, just friendships.",
-    description:
-      "A place for positivity and people who vibe with you. Talk. Laugh. Be Real. – No filters, just friendships.",
-    keywords: [
-      "social media",
-      "friendship",
-      "community",
-      "authentic connections",
-      "positive vibes",
-      "social networking",
-      "real conversations",
-      "genuine friendships",
-    ],
-    author: "VibeCircles",
-    image: "/images/og/home.jpg",
-    imageAlt: "VibeCircles - A place for positivity and authentic connections",
-    canonical: "https://vibecircles.com",
-    robots: "index,follow",
-    alternates: [{ href: "https://vibecircles.com", hrefLang: "en" }],
-    openGraph: {
-      type: "website",
-      siteName: "VibeCircles",
-      locale: "en_US",
-    },
-    twitter: {
-      card: "summary_large_image",
-      creator: "@vibecircles",
-      site: "@vibecircles",
-    },
+    image: "/api/og/generate?title=Magic Templates&description=Documentation of the official Once UI templates"
   },
-  // add more routes and reference them in page.tsx
+  roadmap: {
+    title: `Roadmap – ${schema.name}`,
+    description: schema.description,
+    path: "/roadmap",
+    image: "/api/og/generate?title=Roadmap"
+  },
+  changelog: {
+    title: `Changelog – ${schema.name}`,
+    description: schema.description,
+    path: "/changelog",
+    image: "/api/og/generate?title=Changelog"
+  }
 };
 
-// social links
-const social = {
-  twitter: "https://x.com/vibecircles",
-  linkedin: "https://www.linkedin.com/company/vibecircles/",
-  discord: "https://discord.com/invite/vibecircles",
-};
-
-// default schema data
-const schema = {
-  logo: `${baseURL}/images/logo.png`,
-  type: "Organization",
-  name: "VibeCircles",
-  description: meta.home.description,
-  email: "info@vibecircles.com",
-  url: baseURL,
-  sameAs: [
-    social.twitter,
-    "https://www.instagram.com/vibecircles/",
-    "https://www.facebook.com/profile.php?id=61577760104699",
-    "https://www.threads.com/@vibecircles",
-    "https://www.tiktok.com/@vibecircles",
-    social.linkedin,
-  ],
-};
-
-export { baseURL, fonts, style, meta, schema, social, effects, dataStyle };
+export { dataStyle, effects, style, layout, baseURL, social, schema, meta, routes, fonts };

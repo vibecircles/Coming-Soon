@@ -1,0 +1,175 @@
+---
+title: "State Management"
+summary: "Redux store configuration and state management patterns"
+updatedAt: "2025-01-27"
+navLabel: "State Management"
+navIcon: "database"
+---
+
+# State Management
+
+VibeCircles uses Redux with Redux Thunk for centralized state management.
+
+## Store Configuration
+
+### `src/store/ReduxStore.js`
+
+The Redux store is configured with:
+- **Redux Thunk:** For async actions
+- **Redux DevTools:** For debugging
+- **LocalStorage Persistence:** State persists across page refreshes
+
+```javascript
+import { createStore, applyMiddleware, compose } from "redux";
+import thunk from "redux-thunk";
+import { reducers } from "../reducers";
+
+// LocalStorage persistence
+function saveToLocalStorage(store) {
+  const serializedStore = JSON.stringify(store);
+  window.localStorage.setItem('store', serializedStore);
+}
+
+function loadFromLocalStorage() {
+  const serializedStore = window.localStorage.getItem('store');
+  return serializedStore ? JSON.parse(serializedStore) : undefined;
+}
+
+const persistedState = loadFromLocalStorage();
+const store = createStore(
+  reducers, 
+  persistedState, 
+  compose(applyMiddleware(thunk))
+);
+
+store.subscribe(() => saveToLocalStorage(store.getState()));
+```
+
+## Reducers
+
+### Combined Reducers (`src/reducers/index.js`)
+
+```javascript
+import { combineReducers } from "redux";
+import authReducer from "./authReducer.js";
+import postReducer from "./postReducer.js";
+
+export const reducers = combineReducers({ 
+  authReducer, 
+  postReducer 
+});
+```
+
+### 1. Auth Reducer (`authReducer.js`)
+Manages authentication state:
+- **State Structure:**
+  - `authData`: User information and JWT token
+  - `loading`: Loading state for auth operations
+  - `error`: Error messages
+
+- **Actions:**
+  - `AUTH_START`: Begin authentication
+  - `AUTH_SUCCESS`: Authentication successful
+  - `AUTH_FAIL`: Authentication failed
+  - `LOG_OUT`: User logout
+
+### 2. Post Reducer (`postReducer.js`)
+Manages posts and uploads:
+- **State Structure:**
+  - `posts`: Array of post objects
+  - `uploading`: Upload loading state
+  - `error`: Error messages
+
+- **Actions:**
+  - `RETREIVING_START`: Begin fetching posts
+  - `RETREIVING_SUCCESS`: Posts fetched successfully
+  - `RETREIVING_FAIL`: Failed to fetch posts
+  - `UPLOAD_START`: Begin post upload
+  - `UPLOAD_SUCCESS`: Post uploaded successfully
+  - `UPLOAD_FAIL`: Post upload failed
+
+## Actions
+
+Actions are organized by domain in `/src/actions`:
+
+### Auth Actions (`AuthAction.js`)
+- `logIn(formData)` - User login
+- `signUp(formData)` - User registration
+- `logOut()` - User logout
+
+### Post Actions (`PostAction.js`)
+- `getTimelinePosts(id)` - Fetch timeline posts
+- `likePost(id, userId)` - Like/unlike a post
+
+### Upload Actions (`UploadAction.js`)
+- `uploadImage(data)` - Upload image file
+- `uploadPost(newPost)` - Create new post
+
+### User Actions (`UserAction.js`)
+- `getUser(id)` - Fetch user profile
+- `updateUser(id, formData)` - Update user profile
+- `followUser(id, userId)` - Follow a user
+- `unFollowUser(id, userId)` - Unfollow a user
+
+## Action Pattern
+
+Actions follow the async thunk pattern:
+
+```javascript
+export const logIn = (formData) => async (dispatch) => {
+  dispatch({ type: 'AUTH_START' });
+  try {
+    const { data } = await AuthApi.logIn(formData);
+    dispatch({ type: 'AUTH_SUCCESS', data: data });
+  } catch (error) {
+    dispatch({ type: 'AUTH_FAIL' });
+  }
+};
+```
+
+## Using Redux in Components
+
+### Accessing State
+```javascript
+import { useSelector } from 'react-redux';
+
+const user = useSelector((state) => state.authReducer.authData);
+const posts = useSelector((state) => state.postReducer.posts);
+```
+
+### Dispatching Actions
+```javascript
+import { useDispatch } from 'react-redux';
+import { logIn } from '../../actions/AuthAction';
+
+const dispatch = useDispatch();
+dispatch(logIn(formData));
+```
+
+## State Persistence
+
+The store automatically saves to localStorage:
+- **On every state change:** `store.subscribe()` saves state
+- **On app load:** State is restored from localStorage
+- **Benefits:** Users stay logged in after page refresh
+
+## State Structure
+
+```javascript
+{
+  authReducer: {
+    authData: {
+      user: { /* user object */ },
+      token: "jwt_token"
+    },
+    loading: false,
+    error: null
+  },
+  postReducer: {
+    posts: [ /* array of posts */ ],
+    uploading: false,
+    error: null
+  }
+}
+```
+

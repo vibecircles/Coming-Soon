@@ -1,0 +1,93 @@
+---
+title: "Routes"
+summary: "API endpoints with methods and descriptions"
+updatedAt: "2025-01-27"
+navLabel: "Routes"
+navIcon: "route"
+---
+
+# Routes
+
+Routes define the API endpoints and map them to controller functions. They handle HTTP method routing and can include middleware for authentication and validation.
+
+## 1. Auth Routes (`Routes/AuthRoute.js`)
+
+**Base Path:** `/auth`
+
+| Method | Endpoint | Controller | Description |
+|--------|----------|------------|-------------|
+| POST | `/register` | `registerUser` | Register new user |
+| POST | `/login` | `loginUser` | User login |
+
+### Route Details
+
+- **No authentication required** for these routes
+- Both routes accept JSON request bodies
+- Both routes return user object and JWT token on success
+
+---
+
+## 2. User Routes (`Routes/UserRoute.js`)
+
+**Base Path:** `/user`
+
+| Method | Endpoint | Controller | Auth Required | Description |
+|--------|----------|------------|---------------|-------------|
+| GET | `/` | `getAllUsers` | No | Get all users |
+| GET | `/:id` | `getUser` | No | Get user by ID |
+| PUT | `/:id` | `updateUser` | Yes | Update user profile |
+| DELETE | `/:id` | `deleteUser` | Yes | Delete user account |
+| PUT | `/:id/follow` | `followUser` | Yes | Follow a user |
+| PUT | `/:id/unfollow` | `UnFollowUser` | Yes | Unfollow a user |
+
+### Route Details
+
+- Public routes (GET) don't require authentication
+- Protected routes (PUT, DELETE) require JWT token in Authorization header
+- `:id` parameter represents the user ID
+
+---
+
+## 3. Post Routes (`Routes/PostRoute.js`)
+
+**Base Path:** `/post`
+
+| Method | Endpoint | Controller | Description |
+|--------|----------|------------|-------------|
+| POST | `/` | `createPost` | Create new post |
+| GET | `/:id` | `getPost` | Get post by ID |
+| PUT | `/:id` | `updatePost` | Update post |
+| DELETE | `/:id` | `deletePost` | Delete post |
+| PUT | `/:id/like_dislike` | `like_dislike_Post` | Toggle like on post |
+| GET | `/:id/timeline` | `timeline` | Get user timeline |
+
+### Route Details
+
+- Most routes require userId in request body for authorization
+- Timeline route uses MongoDB aggregation for efficient querying
+- `:id` parameter represents the post ID (or user ID for timeline)
+
+---
+
+## 4. Upload Routes (`Routes/UploadRoute.js`)
+
+**Base Path:** `/upload`
+
+**File Upload Configuration:**
+- **Storage:** Local disk storage
+- **Destination:** `public/images/`
+- **Filename:** Uses `req.body.name`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/` | Upload single file (image) |
+
+### Route Details
+
+- Uses Multer middleware for file handling
+- Accepts multipart/form-data
+- Stores files in `public/images/` directory
+- Returns success message on upload
+
+**Note:** Uses Multer middleware for file handling.
+

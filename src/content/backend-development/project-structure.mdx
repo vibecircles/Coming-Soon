@@ -1,0 +1,43 @@
+---
+title: "Project Structure"
+summary: "Directory layout and organization of the VibeCircles backend"
+updatedAt: "2025-01-27"
+navLabel: "Project Structure"
+navIcon: "folder"
+---
+
+# Project Structure
+
+The VibeCircles backend follows a modular MVC (Model-View-Controller) architecture with clear separation of concerns.
+
+```
+Server/
+├── index.js                 # Main entry point
+├── package.json             # Dependencies and scripts
+├── Models/                  # Database models
+│   ├── userModel.js
+│   └── postModel.js
+├── Controllers/             # Business logic
+│   ├── AuthController.js
+│   ├── UserController.js
+│   └── PostController.js
+├── Routes/                  # API route definitions
+│   ├── AuthRoute.js
+│   ├── UserRoute.js
+│   ├── PostRoute.js
+│   └── UploadRoute.js
+├── Middleware/              # Custom middleware
+│   └── authMiddleWare.js
+└── public/                  # Static files
+    └── images/              # Uploaded images
+```
+
+## Directory Descriptions
+
+- **`index.js`**: Main server file that initializes Express, connects to MongoDB, and registers all routes
+- **`Models/`**: Contains Mongoose schemas defining the data structure for Users and Posts
+- **`Controllers/`**: Contains business logic for handling requests (Auth, User, Post operations)
+- **`Routes/`**: Defines API endpoints and maps them to controller functions
+- **`Middleware/`**: Custom middleware functions (authentication, validation, etc.)
+- **`public/images/`**: Storage location for uploaded image files
+

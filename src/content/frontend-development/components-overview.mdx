@@ -1,0 +1,152 @@
+---
+title: "Components Overview"
+summary: "Overview of all components organized by category"
+updatedAt: "2025-01-27"
+navLabel: "Components Overview"
+navIcon: "components"
+---
+
+# Components Overview
+
+VibeCircles frontend is built using a component-based architecture. Components are organized by feature and functionality.
+
+## Component Categories
+
+### 1. Post Components
+Components related to posts and post interactions:
+- **Post** - Individual post display
+- **Posts** - List of posts
+- **PostShare** - Post creation form
+- **PostSide** - Post section container
+
+### 2. Profile Components
+Components for user profiles:
+- **ProfileCard** - User profile information card
+- **ProfileModal** - Profile editing modal
+- **ProfilePageLeft** - Profile page navigation sidebar
+- **profileSide** - Profile sidebar component
+
+### 3. Social Components
+Components for social interactions:
+- **FollowersCard** - Followers list display
+- **TrendCard** - Trending topics card
+- **UserFollow** - User follow/unfollow component
+
+### 4. UI Components
+General UI components:
+- **InfoCard** - Information display card
+- **LogoSearch** - Logo and search bar
+- **RightSide** - Right sidebar container
+- **ShareModal** - Share post modal
+
+### 5. Data Components
+Static/mock data components:
+- **FollowersData** - Mock followers data
+- **PostsData** - Mock posts data
+- **TrendData** - Mock trend data
+
+## Component Structure
+
+Each component follows a consistent structure:
+
+```
+ComponentName/
+├── ComponentName.js    # Component logic
+└── ComponentName.css   # Component styles
+```
+
+### Component Pattern
+
+Most components follow this pattern:
+
+```javascript
+import React from 'react';
+import './ComponentName.css';
+import { useSelector, useDispatch } from 'react-redux';
+
+const ComponentName = ({ props }) => {
+  // Redux state
+  const data = useSelector((state) => state.reducer.data);
+  const dispatch = useDispatch();
+  
+  // Component logic
+  
+  return (
+    <div className="ComponentName">
+      {/* JSX */}
+    </div>
+  );
+};
+
+export default ComponentName;
+```
+
+## Component Hierarchy
+
+### Home Page Component Tree
+```
+Home
+├── ProfileSide
+│   └── ProfileCard
+├── PostSide
+│   ├── PostShare
+│   └── Posts
+│       └── Post (multiple)
+└── RightSide
+    ├── TrendCard (multiple)
+    └── FollowersCard
+```
+
+### Profile Page Component Tree
+```
+Profile
+├── ProfilePageLeft
+├── ProfilePage-Center
+│   ├── ProfileCard
+│   └── PostSide
+│       ├── PostShare
+│       └── Posts
+│           └── Post (multiple)
+└── RightSide
+    ├── TrendCard (multiple)
+    └── FollowersCard
+```
+
+## Component Communication
+
+### Props
+- Components receive data via props
+- Parent components pass data to children
+- Example: `Post` receives `data` prop
+
+### Redux
+- Components access global state via `useSelector`
+- Components dispatch actions via `useDispatch`
+- Shared state across components
+
+### Callbacks
+- Parent components pass callback functions as props
+- Children components call callbacks to update parent state
+- Example: Form submission handlers
+
+## Reusable Components
+
+### Highly Reusable
+- **Post** - Used in multiple contexts (home feed, profile feed)
+- **ProfileCard** - Used in home sidebar and profile page
+- **RightSide** - Used in both home and profile pages
+- **PostSide** - Used in both home and profile pages
+
+### Context-Specific
+- **ProfilePageLeft** - Only used in profile page
+- **PostShare** - Used in post sections
+- **Auth** - Only used in auth page
+
+## Component Organization Principles
+
+1. **Single Responsibility** - Each component has one clear purpose
+2. **Reusability** - Components are designed to be reused
+3. **Composition** - Complex components are built from simpler ones
+4. **Separation of Concerns** - Logic, styling, and data are separated
+5. **Props Interface** - Clear prop definitions for component usage
+

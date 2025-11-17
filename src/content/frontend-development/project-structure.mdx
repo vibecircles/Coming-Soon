@@ -1,0 +1,98 @@
+---
+title: "Project Structure"
+summary: "Directory structure and organization of the VibeCircles frontend"
+updatedAt: "2025-01-27"
+navLabel: "Project Structure"
+navIcon: "folder"
+---
+
+# Project Structure
+
+The VibeCircles frontend follows a well-organized directory structure:
+
+```
+client/
+├── public/                 # Static assets
+│   ├── index.html
+│   ├── manifest.json
+│   └── favicons.ico
+├── src/
+│   ├── actions/           # Redux action creators
+│   │   ├── AuthAction.js
+│   │   ├── PostAction.js
+│   │   ├── UploadAction.js
+│   │   └── UserAction.js
+│   ├── api/              # API request handlers
+│   │   ├── AuthRequest.js
+│   │   ├── PostRequest.js
+│   │   ├── UploadRequest.js
+│   │   └── UserRequest.js
+│   ├── Components/        # Reusable UI components
+│   │   ├── Data/         # Mock/static data
+│   │   ├── FollowersCard/
+│   │   ├── InfoCard/
+│   │   ├── LogoSearch/
+│   │   ├── Post/
+│   │   ├── Posts/
+│   │   ├── PostShare/
+│   │   ├── PostSide/
+│   │   ├── ProfileCard/
+│   │   ├── ProfileModal/
+│   │   ├── ProfilePageLeft/
+│   │   ├── profileSide/
+│   │   ├── RightSide/
+│   │   ├── ShareModal/
+│   │   ├── TrendCard/
+│   │   └── UserFollow/
+│   ├── Img/              # Image assets
+│   ├── Pages/            # Page-level components
+│   │   ├── auth/
+│   │   ├── home/
+│   │   └── profile/
+│   ├── reducers/         # Redux reducers
+│   │   ├── authReducer.js
+│   │   ├── postReducer.js
+│   │   └── index.js
+│   ├── store/            # Redux store configuration
+│   │   └── ReduxStore.js
+│   ├── App.js            # Main app component
+│   ├── App.css           # Global styles
+│   └── index.js          # Application entry point
+├── package.json
+└── README.md
+```
+
+## Directory Descriptions
+
+### `/src/actions`
+Contains Redux action creators that dispatch actions to update the application state. Each file handles actions for a specific domain (Auth, Posts, Uploads, Users).
+
+### `/src/api`
+Centralized API request handlers using Axios. These functions make HTTP requests to the backend API and return promises.
+
+### `/src/Components`
+Reusable UI components organized by feature:
+- **Post Components:** Post, Posts, PostShare, PostSide
+- **Profile Components:** ProfileCard, ProfileModal, ProfilePageLeft, profileSide
+- **Social Components:** FollowersCard, TrendCard, UserFollow
+- **UI Components:** InfoCard, LogoSearch, RightSide
+
+### `/src/Pages`
+Top-level page components that represent different routes:
+- **Auth:** Login and Signup page
+- **Home:** Main feed page
+- **Profile:** User profile page
+
+### `/src/reducers`
+Redux reducers that specify how the application state changes in response to actions.
+
+### `/src/store`
+Redux store configuration with middleware (Redux Thunk) and persistence to localStorage.
+
+## Component Organization
+
+Components are organized by feature/domain:
+- Each component has its own folder
+- Components include both `.js` and `.css` files
+- Related components are grouped together (e.g., Post-related components)
+

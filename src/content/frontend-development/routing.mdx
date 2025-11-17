@@ -1,0 +1,108 @@
+---
+title: "Routing"
+summary: "Client-side routing configuration and navigation"
+updatedAt: "2025-01-27"
+navLabel: "Routing"
+navIcon: "route"
+---
+
+# Routing
+
+VibeCircles uses React Router DOM v6 for client-side routing and navigation.
+
+## Route Structure
+
+The application has three main routes:
+
+### 1. Authentication Route (`/auth`)
+- **Component:** `Auth.js`
+- **Access:** Public (redirects if authenticated)
+- **Features:**
+  - Login form
+  - Signup form
+  - Toggle between login/signup modes
+  - Form validation
+
+### 2. Home Route (`/home`)
+- **Component:** `Home.js`
+- **Access:** Protected (requires authentication)
+- **Layout:**
+  - Left sidebar: Profile information
+  - Center: Post feed
+  - Right sidebar: Trends and suggestions
+- **Features:**
+  - Post creation
+  - Post feed
+  - User interactions
+
+### 3. Profile Route (`/profile/:id`)
+- **Component:** `Profile.js`
+- **Access:** Protected (requires authentication)
+- **Parameters:** Dynamic user ID
+- **Layout:**
+  - Left sidebar: Profile navigation
+  - Center: Profile card and posts
+  - Right sidebar: Trends and suggestions
+- **Features:**
+  - User profile information
+  - User's posts
+  - Follow/unfollow functionality
+
+## Route Guards
+
+Routes are protected using authentication state from Redux:
+
+```javascript
+const user = useSelector((state) => state.authReducer.authData);
+
+// Protected route example
+<Route 
+  path='/home' 
+  element={user ? <Home /> : <Navigate to='../auth' />} 
+/>
+```
+
+### Guard Logic
+
+- **Authenticated users** accessing `/auth` → Redirected to `/home`
+- **Unauthenticated users** accessing protected routes → Redirected to `/auth`
+- **Root route (`/`)** → Redirects based on authentication status
+
+## Navigation
+
+Navigation is handled using React Router's `Link` component:
+
+```javascript
+import { Link } from 'react-router-dom';
+
+<Link to={`/profile/${user._id}`}>My Profile</Link>
+```
+
+## Dynamic Routes
+
+The profile route uses dynamic parameters:
+- Pattern: `/profile/:id`
+- Access: `useParams()` hook (if needed)
+- Example: `/profile/507f1f77bcf86cd799439011`
+
+## Route Configuration
+
+Routes are defined in `App.js` using the `Routes` and `Route` components:
+
+```javascript
+<Routes>
+  <Route path='/' element={...} />
+  <Route path='/home' element={...} />
+  <Route path='/auth' element={...} />
+  <Route path='/profile/:id' element={...} />
+</Routes>
+```
+
+## Browser History
+
+The app uses `BrowserRouter` which:
+- Uses HTML5 history API
+- Creates clean URLs (no hash fragments)
+- Supports browser back/forward buttons
+- Enables programmatic navigation
+

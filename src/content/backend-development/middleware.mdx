@@ -1,0 +1,70 @@
+---
+title: "Middleware"
+summary: "Authentication middleware and request processing"
+updatedAt: "2025-01-27"
+navLabel: "Middleware"
+navIcon: "shield"
+---
+
+# Middleware
+
+## Auth Middleware (`Middleware/authMiddleWare.js`)
+
+### Purpose
+
+Verify JWT tokens and extract user information from authenticated requests.
+
+### Process
+
+1. Extracts token from `Authorization` header (format: `Bearer <token>`)
+2. Verifies token using `JWT_KEY` from environment variables
+3. Decodes token to get user ID
+4. Attaches `_id` to `req.body` for use in controllers
+5. Calls `next()` to continue request processing
+
+### Usage
+
+Applied to protected routes that require authentication. Example:
+
+```javascript
+router.put('/:id', authMiddleWare, updateUser);
+```
+
+### Implementation Details
+
+```javascript
+const authMiddleWare = async (req, res, next) => {
+    try {
+        const token = req.headers.authorization.split(" ")[1];
+        if (token) {
+            const decoded = jwt.verify(token, secret);
+            req.body._id = decoded?.id;
+        }
+        next();
+    } catch (error) {
+        console.log(error);
+    }
+}
+```
+
+### Error Handling
+
+Currently logs errors but doesn't block the request. This may need improvement for production environments to properly handle:
+- Missing authorization header
+- Invalid or expired tokens
+- Malformed token format
+
+### Security Considerations
+
+- Token is extracted from the `Authorization` header
+- Token is verified using the secret key from environment variables
+- User ID is extracted and made available to controllers
+- No sensitive information is exposed in error messages
+
+### Future Improvements
+
+- Return proper error responses (401 Unauthorized) for invalid tokens
+- Add token expiration handling
+- Implement token refresh mechanism
+- Add rate limiting for authentication attempts
+

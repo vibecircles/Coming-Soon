@@ -1,0 +1,222 @@
+---
+title: "Profile Components"
+summary: "Components related to user profiles and profile management"
+updatedAt: "2025-01-27"
+navLabel: "Profile Components"
+navIcon: "user"
+---
+
+# Profile Components
+
+Profile components handle user profile display, editing, and navigation.
+
+## 1. ProfileCard
+
+**Location:** `src/Components/ProfileCard/ProfileCard.js`
+
+### Purpose
+Displays user profile information in a card format.
+
+### Features
+- Profile picture display
+- Cover picture display
+- User name display
+- Work/description information
+- Followers/Following count
+- Posts count (on profile page)
+- Profile link (on home page)
+
+### Props
+- `location` - Context where component is used:
+  - `"profilePage"` - Shows posts count
+  - Other - Shows "My Profile" link
+
+### Structure
+```javascript
+const ProfileCard = ({ location }) => {
+  const { user } = useSelector((state) => state.authReducer.authData);
+  const posts = useSelector((state) => state.postReducer.posts);
+  
+  // Profile information display
+}
+```
+
+### Display Elements
+- **Cover Image:** Full-width cover picture
+- **Profile Picture:** Circular profile image
+- **Name:** User's first and last name
+- **Work/Description:** User's work or description
+- **Stats:** Followers, Following, Posts counts
+- **Link:** "My Profile" link (when not on profile page)
+
+### Redux Integration
+- Reads user data from `authReducer`
+- Reads posts from `postReducer` (for posts count)
+- Calculates posts count by filtering user's posts
+
+### Image Handling
+- Uses `REACT_APP_PUBLIC_FOLDER` for image paths
+- Falls back to default images if user images not available
+- Handles missing images gracefully
+
+---
+
+## 2. ProfileModal
+
+**Location:** `src/Components/ProfileModal/ProfileModal.js`
+
+### Purpose
+Modal dialog for editing user profile information.
+
+### Features
+- Profile picture upload
+- Cover picture upload
+- Form fields for profile data
+- Save and cancel actions
+- Image preview
+- Form validation
+
+### Functionality
+- **Image Upload:** Upload new profile/cover pictures
+- **Form Fields:** Edit profile information
+- **Validation:** Form validation before submission
+- **API Integration:** Updates profile via API
+- **State Management:** Updates Redux store after save
+
+### Usage
+Opened when user clicks edit profile button.
+
+---
+
+## 3. ProfilePageLeft
+
+**Location:** `src/Components/ProfilePageLeft/ProfilePageLeft.js`
+
+### Purpose
+Left sidebar navigation for profile page.
+
+### Features
+- Profile navigation links
+- Quick access to profile sections
+- Navigation menu items
+
+### Usage
+Only used on the Profile page as the left sidebar.
+
+### Layout
+Provides navigation options for:
+- Profile overview
+- Posts
+- Other profile sections
+
+---
+
+## 4. profileSide
+
+**Location:** `src/Components/profileSide/ProfileSide.js`
+
+### Purpose
+Profile sidebar component for home page.
+
+### Features
+- User profile summary
+- Quick profile access
+- Compact profile display
+
+### Usage
+Used in Home page left sidebar.
+
+### Difference from ProfileCard
+- More compact version
+- Designed for sidebar use
+- May show abbreviated information
+
+---
+
+## Profile Component Flow
+
+### Profile Display Flow
+1. Component reads user data from Redux
+2. Fetches user images from server
+3. Displays profile information
+4. Calculates and displays statistics
+5. Shows appropriate actions based on context
+
+### Profile Edit Flow
+1. User clicks edit button
+2. `ProfileModal` opens
+3. User uploads new images or edits data
+4. Form validation
+5. API call to update profile
+6. Redux store updated
+7. UI reflects changes
+8. Modal closes
+
+## Data Structure
+
+### User Profile Data
+```javascript
+{
+  _id: "user_id",
+  firstname: "John",
+  lastname: "Doe",
+  email: "john@example.com",
+  profilePicture: "profile.jpg",
+  coverPicture: "cover.jpg",
+  worksAt: "Company Name",
+  followers: ["user_id1", "user_id2"],
+  following: ["user_id3", "user_id4"]
+}
+```
+
+### Redux State
+User data stored in `authReducer`:
+```javascript
+{
+  authData: {
+    user: {/* user object */},
+    token: "jwt_token"
+  }
+}
+```
+
+## Component Relationships
+
+### ProfileCard Usage
+- **Home Page:** Shows current user profile with link
+- **Profile Page:** Shows profile with posts count
+
+### ProfileModal Integration
+- Triggered from ProfileCard or ProfilePageLeft
+- Updates data that ProfileCard displays
+- Maintains consistency across components
+
+## Image Handling
+
+### Image Paths
+- Uses `process.env.REACT_APP_PUBLIC_FOLDER` for base path
+- Constructs full image URLs
+- Handles default images for missing pictures
+
+### Image Upload
+- Profile picture upload
+- Cover picture upload
+- Image preview before upload
+- Progress indication during upload
+
+## Styling
+
+Each profile component has its own CSS:
+- `ProfileCard.css` - Profile card styles
+- `ProfileModal.js` - Modal styles (may use inline or CSS)
+- `ProfilePageLeft.css` - Navigation sidebar styles
+- `ProfileSide.css` - Home sidebar profile styles
+
+## Responsive Design
+
+Profile components adapt to:
+- Different screen sizes
+- Mobile vs desktop layouts
+- Sidebar vs full-width displays
+- Image aspect ratios
+

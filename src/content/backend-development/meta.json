@@ -1,0 +1,20 @@
+{
+  "title": "VibeCircles Backend",
+  "order": 2,
+  "pages": {
+    "project-overview": 1,
+    "project-structure": 2,
+    "dependencies": 3,
+    "main-entry-point": 4,
+    "database-models": 5,
+    "controllers": 6,
+    "routes": 7,
+    "middleware": 8,
+    "api-endpoints": 9,
+    "environment-variables": 10,
+    "security-considerations": 11,
+    "error-handling": 12,
+    "development": 13,
+    "future-improvements": 14
+  }
+}

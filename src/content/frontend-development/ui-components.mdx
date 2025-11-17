@@ -1,0 +1,167 @@
+---
+title: "UI Components"
+summary: "User interface components and their functionality"
+updatedAt: "2025-01-27"
+navLabel: "UI Components"
+navIcon: "layout"
+---
+
+# UI Components
+
+UI components provide the visual interface and user interactions throughout the application.
+
+## 1. LogoSearch
+
+**Location:** `src/Components/LogoSearch/LogoSearch.js`
+
+### Purpose
+Displays the application logo and provides search functionality.
+
+### Features
+- Application logo display
+- Search input field
+- Navigation element
+
+### Usage
+Typically used in headers or navigation bars.
+
+---
+
+## 2. InfoCard
+
+**Location:** `src/Components/InfoCard/InfoCard.js`
+
+### Purpose
+Displays information in a card format.
+
+### Features
+- Card-based layout
+- Information display
+- Styled container
+
+### Usage
+Used to display various types of information in a structured format.
+
+---
+
+## 3. RightSide
+
+**Location:** `src/Components/RightSide/RightSide.js`
+
+### Purpose
+Right sidebar container that holds trends and suggestions.
+
+### Features
+- Container for multiple components
+- Trends display
+- Follow suggestions
+- Consistent sidebar layout
+
+### Components It Contains
+- `TrendCard` components
+- `FollowersCard` component
+
+### Usage
+Used in both Home and Profile pages as the right sidebar.
+
+---
+
+## 4. ShareModal
+
+**Location:** `src/Components/ShareModal/ShareModal.js`
+
+### Purpose
+Modal dialog for sharing posts.
+
+### Features
+- Modal overlay
+- Share options
+- User interaction dialog
+
+### Usage
+Opened when users want to share a post with additional options.
+
+---
+
+## 5. ProfileModal
+
+**Location:** `src/Components/ProfileModal/ProfileModal.js`
+
+### Purpose
+Modal dialog for editing profile information.
+
+### Features
+- Profile editing form
+- Image upload for profile/cover pictures
+- Form validation
+- Save/cancel actions
+
+### Usage
+Opened when users want to edit their profile information.
+
+---
+
+## UI Component Patterns
+
+### Modal Components
+Both `ShareModal` and `ProfileModal` follow modal patterns:
+- Overlay background
+- Centered content
+- Close functionality
+- Form handling (for ProfileModal)
+
+### Container Components
+Components like `RightSide` act as containers:
+- Wrap multiple child components
+- Provide consistent layout
+- Manage spacing and styling
+
+### Card Components
+Components like `InfoCard` use card design:
+- Elevated appearance
+- Rounded corners
+- Padding and spacing
+- Visual hierarchy
+
+## Styling Approach
+
+UI components use:
+- **CSS Modules:** Component-specific styles
+- **CSS Variables:** For theming (colors, spacing)
+- **Material-UI Icons:** For consistent iconography
+- **Flexbox/Grid:** For layouts
+
+## Component Props
+
+### Common Props Pattern
+```javascript
+// Container component
+<RightSide />
+
+// Card component with data
+<InfoCard data={infoData} />
+
+// Modal component with handlers
+<ProfileModal 
+  isOpen={isOpen}
+  onClose={handleClose}
+  onSubmit={handleSubmit}
+/>
+```
+
+## Accessibility Considerations
+
+UI components should:
+- Use semantic HTML
+- Include proper ARIA labels
+- Support keyboard navigation
+- Maintain focus management (especially modals)
+
+## Responsive Design
+
+UI components are designed to be responsive:
+- Adapt to different screen sizes
+- Use flexible layouts (Flexbox/Grid)
+- Hide/show elements based on viewport
+- Maintain usability on mobile devices
+

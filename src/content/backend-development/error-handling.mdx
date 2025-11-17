@@ -1,0 +1,179 @@
+---
+title: "Error Handling"
+summary: "HTTP status codes and error response patterns"
+updatedAt: "2025-01-27"
+navLabel: "Error Handling"
+navIcon: "alert"
+---
+
+# Error Handling
+
+The VibeCircles backend uses standard HTTP status codes to indicate the result of API requests.
+
+## HTTP Status Codes
+
+### Success Codes
+
+- **200 OK**: Request succeeded
+  - Used for successful GET, PUT, DELETE operations
+  - Returns requested data or success messages
+
+### Client Error Codes
+
+- **400 Bad Request**: Invalid request data
+  - Used when validation fails
+  - Example: User already exists during registration
+  - Example: Invalid email or password format
+
+- **403 Forbidden**: Unauthorized action
+  - Used when user tries to perform action they don't have permission for
+  - Example: Trying to update another user's profile
+  - Example: Trying to delete a post you don't own
+  - Example: Trying to follow yourself
+
+- **404 Not Found**: Resource doesn't exist
+  - Used when requested resource (user, post) is not found
+  - Example: Invalid user ID in URL parameter
+
+### Server Error Codes
+
+- **500 Internal Server Error**: Server-side error
+  - Used for unexpected server errors
+  - Database connection issues
+  - Unhandled exceptions
+
+## Error Response Examples
+
+### 400 Bad Request
+
+```json
+{
+  "message": "This User already exists!"
+}
+```
+
+```json
+{
+  "message": "Sorry, Please enter the correct email or password!"
+}
+```
+
+### 403 Forbidden
+
+```json
+{
+  "message": "Access Denied! You can only update your own profile"
+}
+```
+
+```json
+{
+  "message": "Action forbidden"
+}
+```
+
+### 404 Not Found
+
+```json
+{
+  "message": "Please, Try again it is invaild user!"
+}
+```
+
+### 500 Internal Server Error
+
+```json
+{
+  "message": "Error message details"
+}
+```
+
+## Error Handling Patterns
+
+### Try-Catch Blocks
+
+Most controller functions use try-catch blocks to handle errors:
+
+```javascript
+try {
+    // Operation logic
+    res.status(200).json(data);
+} catch (error) {
+    res.status(500).json({ message: error.message });
+}
+```
+
+### Validation Errors
+
+Validation errors are caught before database operations:
+
+```javascript
+if (oldUser) {
+    return res.status(400).json({ message: "This User already exists!" });
+}
+```
+
+### Authorization Errors
+
+Authorization checks return 403 errors:
+
+```javascript
+if (id !== _id) {
+    res.status(403).json("Access Denied! You can only update your own profile");
+}
+```
+
+## Current Error Handling
+
+### Strengths
+
+- Uses appropriate HTTP status codes
+- Provides descriptive error messages
+- Handles common error scenarios
+
+### Areas for Improvement
+
+1. **Consistent Error Format**
+   - Standardize error response structure
+   - Include error codes for programmatic handling
+
+2. **Error Logging**
+   - Implement proper error logging
+   - Log errors to files or logging service
+   - Don't expose sensitive information in logs
+
+3. **Error Middleware**
+   - Create centralized error handling middleware
+   - Catch all unhandled errors
+   - Format errors consistently
+
+4. **Validation Errors**
+   - Return detailed validation error messages
+   - List all validation failures
+
+5. **Database Errors**
+   - Handle specific database errors (duplicate key, connection errors)
+   - Provide user-friendly error messages
+
+## Recommended Error Response Format
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "USER_NOT_FOUND",
+    "message": "User with the specified ID does not exist",
+    "statusCode": 404
+  }
+}
+```
+
+## Future Improvements
+
+1. Implement error handling middleware
+2. Create custom error classes
+3. Add error logging service
+4. Implement error tracking (Sentry, etc.)
+5. Add request ID for error tracing
+6. Create error documentation for API consumers
+

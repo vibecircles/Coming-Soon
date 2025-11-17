@@ -1,0 +1,190 @@
+---
+title: "Development"
+summary: "How to run the server and development setup"
+updatedAt: "2025-01-27"
+navLabel: "Development"
+navIcon: "tools"
+---
+
+# Development
+
+Guide for setting up and running the VibeCircles backend in a development environment.
+
+## Prerequisites
+
+- **Node.js**: Version 14 or higher
+- **MongoDB**: Local installation or MongoDB Atlas account
+- **npm**: Comes with Node.js
+
+## Installation
+
+### 1. Install Dependencies
+
+Navigate to the Server directory and install all dependencies:
+
+```bash
+cd Server
+npm install
+```
+
+This will install all packages listed in `package.json`.
+
+### 2. Environment Setup
+
+Create a `.env` file in the Server directory:
+
+```env
+MONGO_DB=mongodb://localhost:27017/vibecircles
+PORT=5000
+JWT_KEY=your_secret_jwt_key_here
+```
+
+**Note:** Replace `your_secret_jwt_key_here` with a secure random string.
+
+### 3. Start MongoDB
+
+Make sure MongoDB is running:
+
+**Local MongoDB:**
+```bash
+# Windows
+net start MongoDB
+
+# macOS/Linux
+mongod
+```
+
+**MongoDB Atlas:**
+- Use your MongoDB Atlas connection string in the `.env` file
+
+## Running the Server
+
+### Development Mode
+
+Start the server with nodemon for auto-restart on file changes:
+
+```bash
+npm start
+```
+
+This runs `nodemon index.js`, which will:
+- Start the server on the port specified in `.env`
+- Automatically restart when you make code changes
+- Watch for file modifications
+
+### Manual Start
+
+If you prefer to start without nodemon:
+
+```bash
+node index.js
+```
+
+## Project Scripts
+
+### Available Scripts
+
+- **`npm start`**: Start server with nodemon (auto-restart on changes)
+
+### Adding More Scripts
+
+You can add more scripts to `package.json`:
+
+```json
+{
+  "scripts": {
+    "start": "nodemon index.js",
+    "dev": "nodemon index.js",
+    "prod": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
+```
+
+## Development Workflow
+
+### 1. Make Code Changes
+
+Edit files in:
+- `Controllers/` - Business logic
+- `Routes/` - API endpoints
+- `Models/` - Database schemas
+- `Middleware/` - Custom middleware
+
+### 2. Auto-Restart
+
+Nodemon will automatically restart the server when you save changes.
+
+### 3. Test Endpoints
+
+Use tools like:
+- **Postman**: API testing
+- **Thunder Client**: VS Code extension
+- **curl**: Command line
+- **Frontend Application**: Connect to backend
+
+## Testing the API
+
+### Using curl
+
+```bash
+# Register a user
+curl -X POST http://localhost:5000/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"test123","firstname":"Test","lastname":"User"}'
+
+# Login
+curl -X POST http://localhost:5000/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"test123"}'
+```
+
+### Using Postman
+
+1. Create a new request
+2. Set method (GET, POST, PUT, DELETE)
+3. Enter URL: `http://localhost:5000/[endpoint]`
+4. Add headers if needed (Content-Type, Authorization)
+5. Add body for POST/PUT requests
+6. Send request
+
+## Common Issues
+
+### Port Already in Use
+
+If port 5000 is already in use:
+
+```bash
+# Change PORT in .env file
+PORT=3000
+```
+
+### MongoDB Connection Error
+
+- Check if MongoDB is running
+- Verify connection string in `.env`
+- Check network/firewall settings
+
+### Module Not Found
+
+```bash
+# Reinstall dependencies
+npm install
+```
+
+## Development Tips
+
+1. **Use Environment Variables**: Never hardcode sensitive values
+2. **Check Logs**: Monitor console output for errors
+3. **Test Incrementally**: Test each endpoint as you build it
+4. **Use Git**: Commit changes regularly
+5. **Follow MVC Pattern**: Keep code organized
+
+## Next Steps
+
+- Set up testing framework (Jest, Mocha)
+- Add API documentation (Swagger)
+- Implement CI/CD pipeline
+- Set up code linting (ESLint)
+- Add pre-commit hooks
+

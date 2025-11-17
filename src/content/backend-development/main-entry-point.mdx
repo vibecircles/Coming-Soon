@@ -1,0 +1,52 @@
+---
+title: "Main Entry Point"
+summary: "Explanation of the index.js server file and its configuration"
+updatedAt: "2025-01-27"
+navLabel: "Main Entry Point"
+navIcon: "play"
+---
+
+# Main Entry Point
+
+## `index.js`
+
+The main server file that initializes and configures the Express application.
+
+### Key Responsibilities
+
+- Initializes Express application
+- Configures middleware (CORS, body-parser)
+- Sets up static file serving
+- Connects to MongoDB database
+- Registers all route handlers
+- Starts the server
+
+### Key Features
+
+- **Static File Serving:** Serves images from `public` and `images` directories
+- **Body Parser:** Configured with 30MB limit for handling file uploads
+- **Environment Configuration:** Uses environment variables for MongoDB URI and PORT
+- **Modular Routes:** Organized route handlers for different features
+
+### Configuration
+
+```javascript
+// Server listens on process.env.PORT
+// MongoDB connection via process.env.MONGO_DB
+```
+
+### Middleware Setup
+
+1. **Static Files:** `app.use(express.static('public'))` - Serves public files
+2. **Body Parser:** Parses JSON and URL-encoded request bodies (30MB limit)
+3. **CORS:** Enables cross-origin requests
+4. **Route Handlers:** 
+   - `/auth` - Authentication routes
+   - `/user` - User management routes
+   - `/post` - Post management routes
+   - `/upload` - File upload routes
+
+### Database Connection
+
+The server connects to MongoDB using Mongoose. The connection string is stored in `process.env.MONGO_DB`. Once connected, the server starts listening on the port specified in `process.env.PORT`.
+

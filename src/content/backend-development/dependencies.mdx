@@ -1,0 +1,41 @@
+---
+title: "Dependencies"
+summary: "All packages and their purposes in the VibeCircles backend"
+updatedAt: "2025-01-27"
+navLabel: "Dependencies"
+navIcon: "package"
+---
+
+# Dependencies
+
+## Core Dependencies
+
+- **express** (^4.18.2): Web framework for building RESTful APIs
+- **mongoose** (^7.0.5): MongoDB object modeling tool for Node.js
+- **body-parser** (^1.20.2): Middleware to parse request bodies (JSON, URL-encoded)
+- **cors** (^2.8.5): Enable Cross-Origin Resource Sharing for API access
+- **dotenv** (^16.0.3): Load environment variables from `.env` file
+
+## Security & Authentication
+
+- **jsonwebtoken** (^9.0.0): Generate and verify JWT tokens for authentication
+- **bcrypt** (^5.1.0): Hash passwords securely before storing in database
+
+## File Handling
+
+- **multer** (^1.4.5-lts.1): Middleware for handling multipart/form-data (file uploads)
+
+## Development
+
+- **nodemon** (^2.0.22): Automatically restart server during development when files change
+
+## Installation
+
+All dependencies are listed in `package.json` and can be installed using:
+
+```bash
+npm install
+```
+
+This will install all the packages listed above with their specified versions.
+

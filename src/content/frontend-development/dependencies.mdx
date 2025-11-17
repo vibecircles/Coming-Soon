@@ -1,0 +1,88 @@
+---
+title: "Dependencies"
+summary: "Key dependencies and their usage in VibeCircles frontend"
+updatedAt: "2025-01-27"
+navLabel: "Dependencies"
+navIcon: "package"
+---
+
+# Dependencies
+
+## Core Dependencies
+
+### React & React DOM (^18.2.0)
+- **Purpose:** UI library and DOM rendering
+- **Usage:** Core framework for building components and managing UI state
+
+### React Router DOM (^6.11.1)
+- **Purpose:** Client-side routing
+- **Usage:** 
+  - Navigation between pages (Auth, Home, Profile)
+  - Protected route guards
+  - Dynamic route parameters (`/profile/:id`)
+
+### Redux (^4.2.1) & React Redux (^8.0.5)
+- **Purpose:** State management
+- **Usage:**
+  - Global application state
+  - User authentication data
+  - Posts and user data
+  - Centralized state management across components
+
+### Redux Thunk (^2.4.2)
+- **Purpose:** Middleware for async Redux actions
+- **Usage:** Enables dispatching functions (not just objects) for async operations like API calls
+
+### Axios (^1.4.0)
+- **Purpose:** HTTP client for API requests
+- **Usage:**
+  - Authentication requests (login, signup)
+  - Post CRUD operations
+  - User profile updates
+  - Image uploads
+
+## UI Libraries
+
+### Material-UI (MUI) (^5.11.16)
+- **Purpose:** Component library and icons
+- **Usage:**
+  - Icons (PhotoOutlinedIcon, PlayCircleOutlineIcon, etc.)
+  - Modal components
+  - Consistent UI components
+
+### @emotion/react & @emotion/styled (^11.10.6)
+- **Purpose:** CSS-in-JS styling solution
+- **Usage:** Required by Material-UI for styling
+
+### @mantine/modals (^6.0.9)
+- **Purpose:** Modal management
+- **Usage:** Modal dialogs for user interactions
+
+## Development Dependencies
+
+### React Scripts (5.0.1)
+- **Purpose:** Build tool and development server
+- **Usage:** 
+  - `npm start` - Development server
+  - `npm build` - Production build
+  - `npm test` - Run tests
+
+### Testing Libraries
+- **@testing-library/react** - Component testing
+- **@testing-library/jest-dom** - DOM matchers
+- **@testing-library/user-event** - User interaction simulation
+
+## Proxy Configuration
+
+The `package.json` includes a proxy configuration:
+```json
+"proxy": "http://localhost:4000"
+```
+
+This allows API requests to be made to the backend server without CORS issues during development.
+
+## Environment Variables
+
+The application uses environment variables for configuration:
+- `REACT_APP_PUBLIC_FOLDER` - Path to public assets folder on the server
+

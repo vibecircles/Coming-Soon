@@ -1,0 +1,269 @@
+---
+title: "API Integration"
+summary: "API request handlers and integration patterns"
+updatedAt: "2025-01-27"
+navLabel: "API Integration"
+navIcon: "api"
+---
+
+# API Integration
+
+VibeCircles frontend uses Axios for HTTP requests and integrates with the backend API.
+
+## API Configuration
+
+### Base Configuration
+
+**Location:** `src/api/*.js`
+
+All API request files use a common Axios instance:
+
+```javascript
+import axios from 'axios';
+
+const API = axios.create({ baseURL: 'http://localhost:4000' });
+```
+
+### Development Proxy
+
+The `package.json` includes a proxy configuration:
+```json
+"proxy": "http://localhost:4000"
+```
+
+This allows API requests without full URLs during development.
+
+## API Request Files
+
+### 1. AuthRequest.js
+
+**Location:** `src/api/AuthRequest.js`
+
+Handles authentication-related API calls.
+
+#### Functions
+- `logIn(formData)` - POST `/auth/login`
+  - Parameters: `{ email, password }`
+  - Returns: User data and JWT token
+
+- `signUp(formData)` - POST `/auth/register`
+  - Parameters: `{ firstname, lastname, email, password }`
+  - Returns: User data and JWT token
+
+#### Usage
+```javascript
+import * as AuthApi from '../api/AuthRequest';
+
+const { data } = await AuthApi.logIn(formData);
+```
+
+---
+
+### 2. PostRequest.js
+
+**Location:** `src/api/PostRequest.js`
+
+Handles post-related API calls.
+
+#### Functions
+- `getTimelinePosts(id)` - GET `/post/${id}/timeline`
+  - Fetches posts for user's timeline
+
+- `likePost(id, userId)` - PUT `/post/${id}/like`
+  - Likes or unlikes a post
+  - Parameters: Post ID and User ID
+
+#### Usage
+```javascript
+import { likePost } from '../../api/PostRequest';
+
+likePost(postId, userId);
+```
+
+---
+
+### 3. UploadRequest.js
+
+**Location:** `src/api/UploadRequest.js`
+
+Handles file upload operations.
+
+#### Functions
+- `uploadImage(data)` - POST `/upload`
+  - Uploads image file
+  - Parameters: FormData with file
+  - Returns: Image path/filename
+
+#### Usage
+```javascript
+import { uploadImage } from '../../actions/UploadAction';
+
+const formData = new FormData();
+formData.append('file', imageFile);
+dispatch(uploadImage(formData));
+```
+
+---
+
+### 4. UserRequest.js
+
+**Location:** `src/api/UserRequest.js`
+
+Handles user-related API calls.
+
+#### Functions
+- `getUser(id)` - GET `/user/${id}`
+  - Fetches user profile data
+
+- `updateUser(id, formData)` - PUT `/user/${id}`
+  - Updates user profile
+  - Parameters: User ID and updated data
+
+- `followUser(id, userId)` - PUT `/user/${id}/follow`
+  - Follows a user
+
+- `unFollowUser(id, userId)` - PUT `/user/${id}/unfollow`
+  - Unfollows a user
+
+---
+
+## Request Pattern
+
+### Standard Request
+```javascript
+export const functionName = (params) => API.method('/endpoint', data);
+```
+
+### Example
+```javascript
+export const logIn = (formData) => API.post('/auth/login', formData);
+```
+
+## Integration with Redux Actions
+
+API calls are wrapped in Redux actions for state management:
+
+### Action Pattern
+```javascript
+export const actionName = (params) => async (dispatch) => {
+  dispatch({ type: 'ACTION_START' });
+  try {
+    const { data } = await ApiCall(params);
+    dispatch({ type: 'ACTION_SUCCESS', data: data });
+  } catch (error) {
+    dispatch({ type: 'ACTION_FAIL' });
+  }
+};
+```
+
+### Example: Login Action
+```javascript
+export const logIn = (formData) => async (dispatch) => {
+  dispatch({ type: 'AUTH_START' });
+  try {
+    const { data } = await AuthApi.logIn(formData);
+    dispatch({ type: 'AUTH_SUCCESS', data: data });
+  } catch (error) {
+    dispatch({ type: 'AUTH_FAIL' });
+  }
+};
+```
+
+## Error Handling
+
+### Current Implementation
+- Errors are caught in action creators
+- Error state is dispatched to Redux
+- Console logging for debugging
+- User-facing error messages (can be improved)
+
+### Error Handling Pattern
+```javascript
+try {
+  const { data } = await ApiCall();
+  // Success handling
+} catch (error) {
+  console.log(error);
+  // Error handling
+  dispatch({ type: 'ACTION_FAIL' });
+}
+```
+
+## Authentication
+
+### JWT Token Handling
+- Tokens are received from login/signup endpoints
+- Tokens are stored in Redux state
+- Tokens persist in localStorage (via Redux persistence)
+- Tokens should be sent in request headers (may need implementation)
+
+### Token in Headers (Recommended)
+```javascript
+API.interceptors.request.use((req) => {
+  if (localStorage.getItem('profile')) {
+    req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`;
+  }
+  return req;
+});
+```
+
+## File Uploads
+
+### Image Upload Pattern
+```javascript
+const formData = new FormData();
+formData.append('name', filename);
+formData.append('file', imageFile);
+
+dispatch(uploadImage(formData));
+```
+
+### Upload Flow
+1. User selects image file
+2. FormData created with file
+3. `uploadImage` action dispatched
+4. API call to upload endpoint
+5. Server returns image path
+6. Image path used in post creation
+
+## Environment Variables
+
+### Public Folder Path
+```javascript
+const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER;
+```
+
+Used for constructing image URLs:
+```javascript
+<img src={serverPublic + user.profilePicture} alt="" />
+```
+
+## API Endpoints Summary
+
+### Authentication
+- `POST /auth/login` - User login
+- `POST /auth/register` - User registration
+
+### Posts
+- `GET /post/:id/timeline` - Get timeline posts
+- `PUT /post/:id/like` - Like/unlike post
+- `POST /post` - Create new post
+
+### Users
+- `GET /user/:id` - Get user profile
+- `PUT /user/:id` - Update user profile
+- `PUT /user/:id/follow` - Follow user
+- `PUT /user/:id/unfollow` - Unfollow user
+
+### Uploads
+- `POST /upload` - Upload image file
+
+## Best Practices
+
+1. **Centralized API Calls** - All API calls in `/api` folder
+2. **Error Handling** - Consistent error handling in actions
+3. **Loading States** - Track loading states in Redux
+4. **Type Safety** - Consider TypeScript for type safety
+5. **Request Interceptors** - Add authentication headers
+6. **Response Interceptors** - Handle common errors globally
+

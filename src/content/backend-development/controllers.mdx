@@ -1,0 +1,164 @@
+---
+title: "Controllers"
+summary: "Business logic for Auth, User, and Post operations"
+updatedAt: "2025-01-27"
+navLabel: "Controllers"
+navIcon: "code"
+---
+
+# Controllers
+
+Controllers contain the business logic for handling requests. They interact with models to perform database operations and return responses to clients.
+
+## 1. Auth Controller (`Controllers/AuthController.js`)
+
+Handles user authentication operations.
+
+### `registerUser(req, res)`
+
+- **Purpose:** Register a new user
+- **Process:**
+  1. Hashes password using bcrypt
+  2. Checks if user with email already exists
+  3. Creates new user in database
+  4. Generates JWT token
+  5. Returns user object and token
+- **Response:** `{ user, token }` or error message
+- **Error Handling:** Returns 400 if user exists, 500 on server error
+
+### `loginUser(req, res)`
+
+- **Purpose:** Authenticate existing user
+- **Process:**
+  1. Finds user by email
+  2. Validates password using bcrypt.compare
+  3. Generates JWT token on success
+  4. Returns user object and token
+- **Response:** `{ user, token }` or error message
+- **Error Handling:** Returns 400 for invalid credentials, 404 if user not found
+
+---
+
+## 2. User Controller (`Controllers/UserController.js`)
+
+Handles user profile and social operations.
+
+### `getAllUsers(req, res)`
+
+- **Purpose:** Retrieve all users
+- **Security:** Excludes password from response
+- **Response:** Array of user objects (without passwords)
+- **Error Handling:** Returns 500 on server error
+
+### `getUser(req, res)`
+
+- **Purpose:** Get single user by ID
+- **Params:** `id` (URL parameter)
+- **Security:** Excludes password from response
+- **Response:** User object or error
+- **Error Handling:** Returns 404 if user not found, 500 on server error
+
+### `updateUser(req, res)`
+
+- **Purpose:** Update user profile
+- **Params:** `id` (URL parameter)
+- **Auth:** Requires authentication middleware
+- **Security:** Only allows users to update their own profile
+- **Features:** 
+  - Hashes password if provided
+  - Generates new JWT token after update
+- **Response:** Updated user and new token
+- **Error Handling:** Returns 403 if unauthorized, 500 on server error
+
+### `deleteUser(req, res)`
+
+- **Purpose:** Delete user account
+- **Params:** `id` (URL parameter)
+- **Auth:** Requires authentication middleware
+- **Security:** Only user or admin can delete
+- **Response:** Success message or error
+- **Error Handling:** Returns 403 if unauthorized, 500 on server error
+
+### `followUser(req, res)`
+
+- **Purpose:** Follow another user
+- **Params:** `id` (URL parameter - user to follow)
+- **Auth:** Requires authentication middleware
+- **Process:**
+  1. Prevents self-follow
+  2. Adds follower to target user's followers array
+  3. Adds target user to current user's following array
+- **Response:** Success message or error
+- **Error Handling:** Returns 403 if action forbidden, 500 on server error
+
+### `UnFollowUser(req, res)`
+
+- **Purpose:** Unfollow a user
+- **Params:** `id` (URL parameter - user to unfollow)
+- **Auth:** Requires authentication middleware
+- **Process:**
+  1. Removes follower from target user's followers array
+  2. Removes target user from current user's following array
+- **Response:** Success message or error
+- **Error Handling:** Returns 403 if action forbidden, 500 on server error
+
+---
+
+## 3. Post Controller (`Controllers/PostController.js`)
+
+Handles post creation, management, and interactions.
+
+### `createPost(req, res)`
+
+- **Purpose:** Create a new post
+- **Body:** `{ userId, desc, image }`
+- **Response:** Created post object
+- **Error Handling:** Returns 500 on server error
+
+### `getPost(req, res)`
+
+- **Purpose:** Get single post by ID
+- **Params:** `id` (URL parameter)
+- **Response:** Post object
+- **Error Handling:** Returns 500 on server error
+
+### `updatePost(req, res)`
+
+- **Purpose:** Update existing post
+- **Params:** `id` (URL parameter)
+- **Body:** `{ userId, ...postData }`
+- **Security:** Only post owner can update
+- **Response:** Success message or error
+- **Error Handling:** Returns 403 if unauthorized, 500 on server error
+
+### `deletePost(req, res)`
+
+- **Purpose:** Delete a post
+- **Params:** `id` (URL parameter)
+- **Body:** `{ userId }`
+- **Security:** Only post owner can delete
+- **Response:** Success message or error
+- **Error Handling:** Returns 403 if unauthorized, 500 on server error
+
+### `like_dislike_Post(req, res)`
+
+- **Purpose:** Toggle like on a post
+- **Params:** `id` (URL parameter)
+- **Body:** `{ userId }`
+- **Process:**
+  - If user hasn't liked: adds userId to likes array
+  - If user has liked: removes userId from likes array
+- **Response:** "Post liked." or "Post unliked."
+- **Error Handling:** Returns 500 on server error
+
+### `timeline(req, res)`
+
+- **Purpose:** Get timeline posts for a user
+- **Params:** `id` (URL parameter - user ID)
+- **Process:**
+  1. Fetches user's own posts
+  2. Uses MongoDB aggregation to fetch posts from users being followed
+  3. Combines and sorts by creation date (newest first)
+- **Response:** Sorted array of posts
+- **Error Handling:** Returns 500 on server error
+

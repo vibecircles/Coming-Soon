@@ -1,0 +1,241 @@
+---
+title: "Post Components"
+summary: "Components related to posts, post creation, and post interactions"
+updatedAt: "2025-01-27"
+navLabel: "Post Components"
+navIcon: "message"
+---
+
+# Post Components
+
+Post components handle the creation, display, and interaction with posts in the application.
+
+## 1. PostShare
+
+**Location:** `src/Components/PostShare/PostShare.js`
+
+### Purpose
+Component for creating and sharing new posts.
+
+### Features
+- Text input for post description
+- Image upload functionality
+- Post options (Photo, Video, Location, Schedule)
+- Image preview before posting
+- Loading state during upload
+
+### Structure
+```javascript
+const PostShare = () => {
+  const [image, setImage] = useState(null);
+  const imageRef = useRef();
+  const desc = useRef();
+  
+  // Image upload and post creation logic
+}
+```
+
+### Functionality
+- **Text Input:** Caption/description input field
+- **Image Upload:** File input for post images
+- **Image Preview:** Shows selected image before posting
+- **Post Submission:** Dispatches `uploadPost` and `uploadImage` actions
+- **Form Reset:** Clears form after successful post
+
+### Redux Integration
+- Reads `uploading` state from `postReducer`
+- Dispatches `uploadImage` action for image upload
+- Dispatches `uploadPost` action for post creation
+
+### UI Elements
+- User profile picture
+- Text input field
+- Action buttons (Photo, Video, Location, Schedule)
+- Share button with loading state
+- Image preview with close button
+
+---
+
+## 2. Post
+
+**Location:** `src/Components/Post/Post.js`
+
+### Purpose
+Displays an individual post with interactions.
+
+### Features
+- Post image display
+- Like/unlike functionality
+- Like count display
+- Post description
+- Author name
+- Comment and share icons
+
+### Structure
+```javascript
+const Post = ({ data }) => {
+  const [liked, setLiked] = useState(data.likes.includes(user._id));
+  const [likes, setLikes] = useState(data.likes.length);
+  
+  const handleLike = () => {
+    // Like/unlike logic
+  };
+}
+```
+
+### Props
+- `data` - Post object containing:
+  - `_id` - Post ID
+  - `image` - Post image path
+  - `name` - Author name
+  - `desc` - Post description
+  - `likes` - Array of user IDs who liked the post
+
+### Functionality
+- **Like/Unlike:** Toggles like state and updates count
+- **Optimistic Updates:** UI updates immediately, API call in background
+- **Image Display:** Shows post image from server
+- **Like Count:** Displays number of likes
+
+### Redux Integration
+- Reads current user from `authReducer`
+- Calls `likePost` API function
+- Updates local state optimistically
+
+### UI Elements
+- Post image
+- Like button (filled/outline icon)
+- Comment icon
+- Share icon
+- Like count
+- Author name and description
+
+---
+
+## 3. Posts
+
+**Location:** `src/Components/Posts/Posts.js`
+
+### Purpose
+Container component that displays a list of posts.
+
+### Features
+- Renders multiple `Post` components
+- Fetches posts from Redux store or API
+- Handles empty state
+- Manages post list display
+
+### Structure
+```javascript
+const Posts = () => {
+  // Fetches posts from Redux or API
+  // Maps posts to Post components
+}
+```
+
+### Functionality
+- **Post Fetching:** Gets posts from Redux store or API
+- **Post Rendering:** Maps posts array to `Post` components
+- **Filtering:** Can filter posts by user (for profile page)
+
+### Redux Integration
+- Reads `posts` from `postReducer`
+- Dispatches actions to fetch posts if needed
+
+---
+
+## 4. PostSide
+
+**Location:** `src/Components/PostSide/PostSide.js`
+
+### Purpose
+Container component for the post section (creation + feed).
+
+### Features
+- Combines `PostShare` and `Posts` components
+- Provides layout for post section
+- Used in both Home and Profile pages
+
+### Structure
+```javascript
+const PostSide = () => {
+  return (
+    <div className="PostSide">
+      <PostShare />
+      <Posts />
+    </div>
+  );
+}
+```
+
+### Layout
+- **Top:** PostShare component (post creation)
+- **Bottom:** Posts component (post feed)
+
+### Usage
+- Used in Home page center column
+- Used in Profile page center column
+- Provides consistent post section layout
+
+---
+
+## Post Component Flow
+
+### Post Creation Flow
+1. User enters description in `PostShare`
+2. User optionally selects image
+3. User clicks "Share" button
+4. Image uploads (if image selected)
+5. Post data sent to API
+6. Post added to Redux store
+7. Post appears in feed
+8. Form resets
+
+### Post Interaction Flow
+1. User views post in `Posts` list
+2. User clicks like button in `Post`
+3. Optimistic UI update (like state changes)
+4. API call to update like on server
+5. Like count updates
+
+## Data Flow
+
+### Post Data Structure
+```javascript
+{
+  _id: "post_id",
+  userId: "user_id",
+  desc: "Post description",
+  image: "image_path.jpg",
+  likes: ["user_id1", "user_id2"],
+  name: "Author Name",
+  createdAt: "2025-01-27T..."
+}
+```
+
+### Redux State
+Posts are stored in `postReducer`:
+```javascript
+{
+  posts: [/* array of post objects */],
+  uploading: false,
+  error: null
+}
+```
+
+## API Integration
+
+### Post-Related API Calls
+- `uploadPost(newPost)` - Create new post
+- `uploadImage(formData)` - Upload post image
+- `likePost(postId, userId)` - Like/unlike post
+- `getTimelinePosts(userId)` - Fetch timeline posts
+
+## Styling
+
+Each post component has its own CSS file:
+- `PostShare.css` - Post creation form styles
+- `Post.css` - Individual post styles
+- `Posts.css` - Post list container styles
+- `PostSide.css` - Post section layout styles
+

@@ -1,0 +1,334 @@
+---
+title: "Development"
+summary: "Development setup, scripts, and best practices"
+updatedAt: "2025-01-27"
+navLabel: "Development"
+navIcon: "tools"
+---
+
+# Development
+
+Guide for setting up and developing the VibeCircles frontend application.
+
+## Prerequisites
+
+- **Node.js:** Version 14 or higher
+- **npm:** Comes with Node.js
+- **Backend Server:** Running on `http://localhost:4000`
+
+## Installation
+
+### 1. Install Dependencies
+
+```bash
+cd client
+npm install
+```
+
+This installs all dependencies listed in `package.json`.
+
+### 2. Environment Variables
+
+Create a `.env` file in the `client` directory:
+
+```env
+REACT_APP_PUBLIC_FOLDER=http://localhost:4000/images/
+```
+
+## Available Scripts
+
+### Development Server
+
+```bash
+npm start
+```
+
+- Starts development server on `http://localhost:3000`
+- Opens browser automatically
+- Hot reload on file changes
+- Shows lint errors in console
+
+### Production Build
+
+```bash
+npm run build
+```
+
+- Creates optimized production build
+- Outputs to `build/` directory
+- Minifies code
+- Optimizes assets
+
+### Run Tests
+
+```bash
+npm test
+```
+
+- Launches test runner in interactive mode
+- Watches for file changes
+- Runs tests related to changed files
+
+### Eject (Not Recommended)
+
+```bash
+npm run eject
+```
+
+- **Warning:** One-way operation, cannot undo
+- Ejects from Create React App
+- Gives full control over configuration
+- Only use if you need custom configuration
+
+## Development Workflow
+
+### 1. Start Backend Server
+
+Ensure the backend server is running on port 4000.
+
+### 2. Start Frontend Server
+
+```bash
+npm start
+```
+
+### 3. Development Process
+
+1. Make changes to components
+2. Save files
+3. Browser automatically refreshes
+4. Check console for errors
+5. Test functionality
+
+## Project Structure
+
+### Adding New Components
+
+1. Create component folder in `src/Components/`
+2. Create `ComponentName.js` file
+3. Create `ComponentName.css` file
+4. Export component as default
+
+### Adding New Pages
+
+1. Create page folder in `src/Pages/`
+2. Create `PageName.js` file
+3. Create `PageName.css` file
+4. Add route in `App.js`
+
+### Adding New API Endpoints
+
+1. Add function to appropriate file in `src/api/`
+2. Create action in `src/actions/`
+3. Use action in components
+
+## Code Organization
+
+### Component Structure
+
+```javascript
+// Imports
+import React from 'react';
+import './Component.css';
+import { useSelector, useDispatch } from 'react-redux';
+
+// Component
+const Component = ({ props }) => {
+  // Hooks
+  const data = useSelector((state) => state.reducer.data);
+  const dispatch = useDispatch();
+  
+  // State
+  const [localState, setLocalState] = useState();
+  
+  // Functions
+  const handleAction = () => {
+    // Logic
+  };
+  
+  // Render
+  return (
+    <div className="Component">
+      {/* JSX */}
+    </div>
+  );
+};
+
+// Export
+export default Component;
+```
+
+## Redux Development
+
+### Adding New Actions
+
+1. Create action function in `src/actions/`
+2. Add corresponding reducer case
+3. Update reducer to handle action
+4. Use in components
+
+### Redux DevTools
+
+Install Redux DevTools browser extension for:
+- State inspection
+- Action tracking
+- Time travel debugging
+- State persistence
+
+## Debugging
+
+### Browser DevTools
+
+- **Console:** Check for errors and logs
+- **Network:** Monitor API requests
+- **React DevTools:** Inspect component tree
+- **Redux DevTools:** Inspect Redux state
+
+### Common Issues
+
+1. **CORS Errors:** Ensure backend proxy is configured
+2. **API Errors:** Check backend server is running
+3. **State Issues:** Use Redux DevTools to inspect state
+4. **Routing Issues:** Check route configuration in `App.js`
+
+## Best Practices
+
+### Component Development
+
+1. **Single Responsibility:** Each component has one purpose
+2. **Reusability:** Make components reusable
+3. **Props Validation:** Validate props (consider PropTypes)
+4. **Clean Code:** Keep components readable and maintainable
+
+### State Management
+
+1. **Local State:** Use `useState` for component-specific state
+2. **Global State:** Use Redux for shared state
+3. **Avoid Prop Drilling:** Use Redux for deeply nested data
+4. **Optimistic Updates:** Update UI immediately, sync with server
+
+### API Integration
+
+1. **Error Handling:** Always handle API errors
+2. **Loading States:** Show loading indicators
+3. **Optimistic Updates:** Update UI before API response
+4. **Retry Logic:** Consider retry for failed requests
+
+### Styling
+
+1. **Component Scoping:** Keep styles component-specific
+2. **CSS Variables:** Use variables for theming
+3. **Responsive Design:** Test on multiple screen sizes
+4. **Accessibility:** Ensure sufficient contrast and focus states
+
+## Testing
+
+### Running Tests
+
+```bash
+npm test
+```
+
+### Test Structure
+
+Tests are located alongside components:
+- `ComponentName.test.js`
+
+### Writing Tests
+
+Use React Testing Library:
+```javascript
+import { render, screen } from '@testing-library/react';
+import Component from './Component';
+
+test('renders component', () => {
+  render(<Component />);
+  const element = screen.getByText(/text/i);
+  expect(element).toBeInTheDocument();
+});
+```
+
+## Build & Deployment
+
+### Production Build
+
+```bash
+npm run build
+```
+
+### Build Output
+
+- Optimized JavaScript bundles
+- Minified CSS
+- Optimized images
+- Static HTML files
+
+### Deployment Options
+
+1. **Static Hosting:** Netlify, Vercel, GitHub Pages
+2. **Server Hosting:** Serve `build/` folder
+3. **CDN:** Upload to CDN for faster delivery
+
+## Environment Configuration
+
+### Development
+
+- Proxy to `http://localhost:4000`
+- Hot reload enabled
+- Source maps for debugging
+
+### Production
+
+- No proxy needed
+- Optimized bundles
+- Environment variables from build-time
+
+## Troubleshooting
+
+### Port Already in Use
+
+```bash
+# Kill process on port 3000
+# Windows
+netstat -ano | findstr :3000
+taskkill /PID <PID> /F
+
+# Mac/Linux
+lsof -ti:3000 | xargs kill
+```
+
+### Module Not Found
+
+1. Check import paths
+2. Verify file exists
+3. Clear cache: `npm start -- --reset-cache`
+
+### Redux State Issues
+
+1. Check Redux DevTools
+2. Verify action types match reducer cases
+3. Check localStorage for persisted state
+
+## Performance Optimization
+
+### Code Splitting
+
+Consider implementing:
+- Route-based code splitting
+- Component lazy loading
+- Dynamic imports
+
+### Image Optimization
+
+- Use appropriate image formats
+- Compress images
+- Lazy load images
+- Use responsive images
+
+### Bundle Size
+
+- Analyze bundle: `npm run build -- --analyze`
+- Remove unused dependencies
+- Use tree shaking
+- Code splitting
+

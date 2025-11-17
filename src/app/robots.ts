@@ -1,16 +1,12 @@
-import { MetadataRoute } from 'next';
-import { baseURL } from '@/resources/once-ui.config';
+import { baseURL } from "@/resources";
 
-export default function robots(): MetadataRoute.Robots {
+export default function robots() {
   return {
     rules: [
       {
-        userAgent: '*',
-        allow: '/',
-        disallow: ['/api/', '/_next/'],
+        userAgent: "*",
       },
     ],
     sitemap: `${baseURL}/sitemap.xml`,
   };
 }
-

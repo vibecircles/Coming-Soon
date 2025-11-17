@@ -1,0 +1,94 @@
+---
+title: "Database Models"
+summary: "User and Post schemas with field definitions"
+updatedAt: "2025-01-27"
+navLabel: "Database Models"
+navIcon: "database"
+---
+
+# Database Models
+
+## 1. User Model (`Models/userModel.js`)
+
+Defines the user schema with the following fields:
+
+### Schema Fields
+
+- `email` (String, required, unique): User email address
+- `password` (String, required): Hashed password
+- `firstname` (String, required): User's first name
+- `lastname` (String, required): User's last name
+- `isAdmin` (Boolean, default: false): Admin status
+- `profilePicture` (String): URL to profile picture
+- `coverPicture` (String): URL to cover picture
+- `about` (String): User bio/description
+- `livesin` (String): Location
+- `worksAt` (String): Workplace
+- `country` (String): Country
+- `relationship` (String): Relationship status
+- `followers` (Array): List of follower user IDs
+- `following` (Array): List of following user IDs
+- `timestamps` (auto): createdAt and updatedAt
+
+**Model Name:** `Users`
+
+### Example User Document
+
+```javascript
+{
+  _id: ObjectId("..."),
+  email: "user@example.com",
+  password: "$2b$10$hashed...",
+  firstname: "John",
+  lastname: "Doe",
+  isAdmin: false,
+  profilePicture: "/images/profile.jpg",
+  coverPicture: "/images/cover.jpg",
+  about: "Software developer",
+  livesin: "New York",
+  worksAt: "Tech Company",
+  country: "USA",
+  relationship: "Single",
+  followers: [ObjectId("..."), ObjectId("...")],
+  following: [ObjectId("...")],
+  createdAt: ISODate("..."),
+  updatedAt: ISODate("...")
+}
+```
+
+---
+
+## 2. Post Model (`Models/postModel.js`)
+
+Defines the post schema for social media posts:
+
+### Schema Fields
+
+- `userId` (String, required): ID of the user who created the post
+- `desc` (String): Post description/text content
+- `likes` (Array): Array of user IDs who liked the post
+- `image` (String): URL to post image
+- `timestamps` (auto): createdAt and updatedAt
+
+**Model Name:** `Posts`
+
+### Example Post Document
+
+```javascript
+{
+  _id: ObjectId("..."),
+  userId: "user_id_string",
+  desc: "This is my first post!",
+  likes: ["user_id_1", "user_id_2"],
+  image: "/images/post1.jpg",
+  createdAt: ISODate("..."),
+  updatedAt: ISODate("...")
+}
+```
+
+### Relationships
+
+- **User to Posts:** One-to-Many (one user can have many posts)
+- **Post to Likes:** Many-to-Many (many users can like many posts)
+- **User to User:** Many-to-Many (users can follow other users)
+

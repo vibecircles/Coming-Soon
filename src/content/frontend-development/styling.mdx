@@ -1,0 +1,253 @@
+---
+title: "Styling"
+summary: "CSS architecture and styling approach"
+updatedAt: "2025-01-27"
+navLabel: "Styling"
+navIcon: "palette"
+---
+
+# Styling
+
+VibeCircles frontend uses CSS for styling with a component-based approach.
+
+## Styling Architecture
+
+### CSS Files Organization
+
+Each component has its own CSS file:
+```
+ComponentName/
+├── ComponentName.js
+└── ComponentName.css
+```
+
+### Global Styles
+
+**Location:** `src/App.css`
+
+Global styles and CSS variables for the entire application.
+
+## CSS Variables
+
+The application uses CSS custom properties (variables) for theming:
+
+### Common Variables
+```css
+:root {
+  --primary-color: /* primary brand color */;
+  --secondary-color: /* secondary color */;
+  --gray: /* gray color for text */;
+  --photo: /* color for photo icon */;
+  --video: /* color for video icon */;
+  --location: /* color for location icon */;
+  --shedule: /* color for schedule icon */;
+}
+```
+
+### Usage
+```css
+.option {
+  color: var(--photo);
+}
+```
+
+## Layout Patterns
+
+### Three-Column Layout
+
+Most pages use a three-column grid layout:
+
+```css
+.Home {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1.5fr;
+  gap: 1rem;
+}
+```
+
+### Flexbox Layouts
+
+Components use Flexbox for internal layouts:
+
+```css
+.postReact {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+```
+
+## Component Styling
+
+### Page Styles
+
+Each page has its own CSS file:
+- `Auth.css` - Authentication page styles
+- `Home.css` - Home page layout
+- `Profile.css` - Profile page layout
+
+### Component Styles
+
+Each component has dedicated CSS:
+- `Post.css` - Post component styles
+- `ProfileCard.css` - Profile card styles
+- `PostShare.css` - Post creation form styles
+
+## Responsive Design
+
+### Media Queries
+
+Responsive breakpoints for different screen sizes:
+
+```css
+@media (max-width: 768px) {
+  .Home {
+    grid-template-columns: 1fr;
+  }
+}
+```
+
+### Mobile Adaptations
+- Single column layout on mobile
+- Stacked components
+- Adjusted spacing and padding
+- Touch-friendly button sizes
+
+## Visual Effects
+
+### Blur Effects
+
+The App component includes decorative blur effects:
+
+```css
+.blur {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(72px);
+  background: rgba(/* color */);
+}
+```
+
+### Hover Effects
+
+Interactive elements have hover states:
+
+```css
+.button:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+}
+```
+
+## Image Styling
+
+### Profile Images
+- Circular profile pictures
+- Full-width cover images
+- Aspect ratio maintenance
+- Object-fit for proper scaling
+
+### Post Images
+- Full-width display
+- Maintain aspect ratio
+- Responsive sizing
+
+## Form Styling
+
+### Input Fields
+```css
+.infoInput {
+  border: none;
+  outline: none;
+  background-color: var(--inputColor);
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+```
+
+### Buttons
+```css
+.button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+```
+
+## Color Scheme
+
+### Color Usage
+- **Primary:** Main brand color for buttons and highlights
+- **Secondary:** Supporting color for accents
+- **Gray:** Text and subtle elements
+- **Background:** Light/dark background colors
+- **Icons:** Color-coded icons (photo, video, location, schedule)
+
+## Typography
+
+### Font Sizes
+- Headings: Larger sizes for titles
+- Body: Standard reading size
+- Small: Captions and metadata
+
+### Font Weights
+- Bold: Emphasis and headings
+- Regular: Body text
+- Light: Subtle text
+
+## Spacing
+
+### Consistent Spacing
+- Padding: Component internal spacing
+- Margin: Component external spacing
+- Gap: Grid and flexbox spacing
+
+### Spacing Scale
+Uses consistent spacing units (rem/px) throughout.
+
+## Animation & Transitions
+
+### Transitions
+```css
+.button {
+  transition: all 0.3s ease;
+}
+```
+
+### Loading States
+- Spinner animations
+- Skeleton loaders
+- Progress indicators
+
+## CSS Best Practices
+
+1. **Component Scoping** - Each component has its own CSS file
+2. **CSS Variables** - Use variables for theming
+3. **Responsive First** - Mobile-first approach
+4. **Consistent Naming** - BEM or similar naming convention
+5. **Reusable Classes** - Common utility classes
+
+## Styling Tools
+
+### Current Stack
+- **CSS:** Standard CSS files
+- **CSS Variables:** For theming
+- **Flexbox/Grid:** For layouts
+
+### Potential Enhancements
+- **CSS Modules:** For better scoping
+- **Styled Components:** CSS-in-JS solution
+- **SASS/SCSS:** For advanced features
+- **Tailwind CSS:** Utility-first framework
+
+## Accessibility
+
+### Styling for Accessibility
+- Sufficient color contrast
+- Focus indicators
+- Touch target sizes
+- Readable font sizes
+- Clear visual hierarchy
+

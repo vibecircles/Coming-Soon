@@ -1,0 +1,21 @@
+{
+  "title": "VibeCircles Frontend",
+  "order": 1,
+  "pages": {
+    "project-overview": 1,
+    "project-structure": 2,
+    "dependencies": 3,
+    "main-entry-point": 4,
+    "routing": 5,
+    "state-management": 6,
+    "pages": 7,
+    "components-overview": 8,
+    "ui-components": 9,
+    "post-components": 10,
+    "profile-components": 11,
+    "api-integration": 12,
+    "styling": 13,
+    "development": 14
+  }
+}
+

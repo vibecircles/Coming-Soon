@@ -1,0 +1,171 @@
+---
+title: "Pages"
+summary: "Page-level components and their structure"
+updatedAt: "2025-01-27"
+navLabel: "Pages"
+navIcon: "file"
+---
+
+# Pages
+
+Pages are top-level components that represent different routes in the application. Each page is composed of multiple components to create the complete layout.
+
+## 1. Auth Page
+
+**Location:** `src/Pages/auth/Auth.js`
+
+### Purpose
+Handles user authentication (login and signup).
+
+### Features
+- Toggle between login and signup modes
+- Form validation
+- Password confirmation matching
+- Loading states during authentication
+- Automatic redirect after successful authentication
+
+### Structure
+```javascript
+const Auth = () => {
+  const [isSignUp, setIsSignUp] = useState(true);
+  const [data, setData] = useState({ 
+    firstname: "", 
+    lastname: "", 
+    email: "", 
+    password: "", 
+    confirmpass: "" 
+  });
+  
+  // Form handling and submission
+}
+```
+
+### Layout
+- **Left Side:** Logo and welcome message
+- **Right Side:** Authentication form (login/signup)
+
+### Components Used
+- Form inputs for user data
+- Submit button with loading state
+- Toggle link between login/signup
+
+### Redux Integration
+- Dispatches `logIn` or `signUp` actions
+- Reads loading state from `authReducer`
+
+---
+
+## 2. Home Page
+
+**Location:** `src/Pages/home/Home.js`
+
+### Purpose
+Main feed page showing posts and social interactions.
+
+### Features
+- Post creation
+- Post feed display
+- User profile sidebar
+- Trends and suggestions
+
+### Structure
+```javascript
+const Home = () => {
+  return (
+    <div className="Home">
+      <ProfileSide />
+      <PostSide />
+      <RightSide />
+    </div>
+  );
+}
+```
+
+### Layout (Three-Column)
+- **Left Column:** `ProfileSide` - User profile card
+- **Center Column:** `PostSide` - Post creation and feed
+- **Right Column:** `RightSide` - Trends and suggestions
+
+### Components Used
+- `ProfileSide` - User profile information
+- `PostSide` - Post creation and feed
+- `RightSide` - Trends and follow suggestions
+
+---
+
+## 3. Profile Page
+
+**Location:** `src/Pages/profile/Profile.js`
+
+### Purpose
+Displays user profile with their posts and information.
+
+### Features
+- User profile information
+- User's posts
+- Follow/unfollow functionality
+- Profile statistics (followers, following, posts)
+
+### Structure
+```javascript
+const Profile = () => {
+  return (
+    <div className='Profile'>
+      <ProfilePageLeft />
+      <div className="ProfilePage-Center">
+        <ProfileCard location="profilePage" />
+        <PostSide />
+      </div>
+      <RightSide />
+    </div>
+  );
+}
+```
+
+### Layout (Three-Column)
+- **Left Column:** `ProfilePageLeft` - Profile navigation
+- **Center Column:** 
+  - `ProfileCard` - Profile information card
+  - `PostSide` - User's posts
+- **Right Column:** `RightSide` - Trends and suggestions
+
+### Components Used
+- `ProfilePageLeft` - Profile navigation sidebar
+- `ProfileCard` - Profile information display
+- `PostSide` - Posts feed (filtered by user)
+- `RightSide` - Trends and suggestions
+
+### Route Parameter
+- Uses dynamic route: `/profile/:id`
+- Fetches user data based on ID parameter
+
+---
+
+## Page Patterns
+
+### Common Patterns Across Pages
+
+1. **Three-Column Layout**
+   - Most pages use a three-column grid layout
+   - Responsive design adapts to screen size
+
+2. **Component Composition**
+   - Pages are composed of smaller, reusable components
+   - Each component handles a specific section
+
+3. **Redux Integration**
+   - All pages access Redux store for data
+   - Pages dispatch actions for data updates
+
+4. **Protected Routes**
+   - Home and Profile pages require authentication
+   - Automatic redirect if not authenticated
+
+### Styling
+Each page has its own CSS file:
+- `Auth.css`
+- `Home.css`
+- `Profile.css`
+
+These files contain page-specific layout and styling rules.
+
