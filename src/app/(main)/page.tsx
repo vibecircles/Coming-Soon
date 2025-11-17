@@ -915,6 +915,15 @@ export default function Home() {
         body, html {
           overflow-x: hidden;
           max-width: 100vw;
+          /* Global optimizations for all devices */
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          text-rendering: optimizeLegibility;
+        }
+        /* Apply font smoothing to all elements */
+        * {
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
         }
       `}</style>
       <ThemeToggle />

@@ -155,6 +155,68 @@
   opacity: 0.6;
 }
 
+/* Global Display Optimizations for All Devices */
+/* Ensure smooth rendering on all devices */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Smooth gradient rendering */
+body, html {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: auto;
+}
+
+/* Better rendering for gradients and backgrounds - All Devices */
+.starfield-background,
+.countdown-container,
+.countdown-time-unit-wrapper,
+.social-icon,
+button[aria-label*="Switch"] {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: auto;
+}
+
+/* Smooth text rendering - All Devices */
+h1, h2, h3, h4, h5, h6, p, span, div, text {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Better backdrop filter rendering - All Devices */
+[style*="backdrop-filter"] {
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+}
+
+/* Additional Retina/High DPI Display Enhancements */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Enhanced rendering for high DPI displays */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Extra sharp rendering for retina displays */
+  .starfield-background,
+  .countdown-container,
+  .countdown-time-unit-wrapper,
+  .social-icon {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: auto;
+  }
+}
+
 /* Base styles for high-resolution displays */
 @media (min-width: 2560px) {
   html {
@@ -261,6 +323,23 @@
     /* Force GPU acceleration and smooth rendering */
     -webkit-perspective: 1000px !important;
     perspective: 1000px !important;
+    /* Smooth rendering for high DPI */
+    image-rendering: -webkit-optimize-contrast !important;
+    image-rendering: auto !important;
+  }
+  
+  /* Additional mobile optimizations for all devices */
+  .countdown-container,
+  .countdown-time-unit-wrapper,
+  .social-icon,
+  .starfield-background,
+  .aurora-bg-1,
+  .aurora-bg-2 {
+    transform: translateZ(0) !important;
+    -webkit-transform: translateZ(0) !important;
+    will-change: transform !important;
+    backface-visibility: hidden !important;
+    -webkit-backface-visibility: hidden !important;
   }
 }
 
