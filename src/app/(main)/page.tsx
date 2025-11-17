@@ -26,10 +26,21 @@ function StarField() {
   const [stars, setStars] = useState<Array<{ id: number; x: number; y: number; delay: number; duration: number; size: number }>>([]);
 
   useEffect(() => {
-    // Generate random stars with varying sizes - reduce count on mobile
+    // Generate random stars with varying sizes - adjust count based on screen size
     const updateStars = () => {
-      const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-      const starCount = isMobile ? 80 : 150;
+      if (typeof window === 'undefined') return;
+      
+      const width = window.innerWidth;
+      let starCount = 150; // Default
+      
+      if (width < 768) {
+        starCount = 80; // Mobile
+      } else if (width >= 3840) {
+        starCount = 300; // 4K displays
+      } else if (width >= 2560) {
+        starCount = 200; // 2K displays
+      }
+      
       const newStars = Array.from({ length: starCount }, (_, i) => ({
         id: i,
         x: Math.random() * 100,

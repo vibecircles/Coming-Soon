@@ -23,6 +23,12 @@ export async function generateMetadata() {
   // Enhance with additional SEO metadata
   return {
     ...metadata,
+    viewport: {
+      width: 'device-width',
+      initialScale: 1,
+      maximumScale: 5,
+      userScalable: true,
+    },
     keywords: meta.home.keywords,
     authors: [{ name: meta.home.author }],
     openGraph: {
