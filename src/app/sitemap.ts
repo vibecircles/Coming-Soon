@@ -1,16 +1,23 @@
-import { getPages } from "@/app/utils/utils";
-import { baseURL } from "@/resources";
+import { MetadataRoute } from 'next';
+import { baseURL, meta } from '@/resources/once-ui.config';
 
-export default async function sitemap() {
-  const pages = getPages(["src", "content"]).map((post) => ({
-    url: `${baseURL}/${post.slug}`,
-    lastModified: post.metadata.updatedAt,
-  }));
+export default function sitemap(): MetadataRoute.Sitemap {
+  const routes = [
+    {
+      url: baseURL,
+      lastModified: new Date(),
+      changeFrequency: 'daily' as const,
+      priority: 1,
+    },
+    // Add more routes here as you create them
+    // {
+    //   url: `${baseURL}/about`,
+    //   lastModified: new Date(),
+    //   changeFrequency: 'monthly' as const,
+    //   priority: 0.8,
+    // },
+  ];
 
-  const routes = pages.map((route) => ({
-    url: `${baseURL}/${route}`,
-    lastModified: new Date().toISOString().split("T")[0],
-  }));
-
-  return [...routes, ...pages];
+  return routes;
 }
+

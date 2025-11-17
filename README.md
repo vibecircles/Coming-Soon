@@ -1,85 +1,77 @@
-# VibeCircles Docs
+# VibeCircles
 
-VibeCircles Docs is a simple, modern, MDX-based documentation system built with Next.js. It automatically generates navigation based on the MDX files in the content directory. It comes with a built-in roadmap and changelog.
+A place for positivity and people who vibe with you. Talk. Laugh. Be Real. – No filters, just friendships.
 
-![VibeCircles Docs](public/images/cover.jpg)
-
-## Getting started
-
-**1. Clone the repository**
-```
-git clone https://github.com/once-ui-system/magic-docs.git
-```
-
-**2. Install dependencies**
-```
-npm install
-```
-
-**3. Run dev server**
-```
-npm run dev
-```
-
-**4. Edit config**
-```
-src/resources/once-ui.config.js
-```
-
-**5. Create documentation pages**
-```
-Add new .mdx files to src/content/
-```
-
-Read the full documentation [here](https://docs.once-ui.com/magic-docs/quick-start).
+![VibeCircles](public/images/og/home.jpg)
 
 ## Features
 
-### Once UI
-- All tokens, components & features of [Once UI](https://once-ui.com) available through NPM
+A lightweight starter template with the [Once UI Core](https://github.com/once-ui-system/core) package and our recommended setup to move fast and break limits without neglecting quality.
 
-### SEO
-- Automatic open-graph and X image generation with next/og
-- Automatic schema and metadata generation based on the content file
+* **Customization**: Manage design config in a single file.
+* **Components**: Access advanced components with simple APIs.
+* **Data-viz**: Add responsive charts with a few lines of code.
+* **SEO**: Use our SEO components to simplify meta and schema setup.
+* **PRO**: Launch ready-made apps with minimal coding with Once UI Pro.
 
-### Pages
-- Roadmap: when enabled, task progress is displayed in the homepage
-- Changelog: when enabled, last changes are displayed in the homepage
+[Get Once UI Pro](https://once-ui.com/pricing)
 
-### Design
-- Responsive layout optimized for all screen sizes
-- Timeless design without heavy animations and motion
-- Endless customization options through [Once UI](https://docs.once-ui.com/once-ui/contexts/themeProvider)
-- Light and dark mode support with system preference detection
+## Documentation
 
-### Navigation
-- Organized documentation structure with nested categories
-- Searchable content with command palette (Cmd+K / Ctrl+K)
-- Automatically generated, responsive sidebar
+Learn how to build with Once UI at [docs.once-ui.com](https://docs.once-ui.com/once-ui/quick-start).
 
-VibeCircles Docs was built with [Once UI](https://once-ui.com) for [Next.js](https://nextjs.org). It requires Node.js v18.17+.
+## Quick start
+
+[Magic Portfolio](https://once-ui.com/products/magic-portfolio) (FREE): Portfolio starter used and loved by thousands of creatives. Simple, customizable, responsive.
+
+[Magic Docs](https://once-ui.com/products/magic-docs) (FREE): Documentation generator. Just add your MDX files and let Magic Docs handle the rest.
+
+[Magic Bio](https://once-ui.com/products/magic-bio) (FREE): Link-in-bio template that automatically fetches open-graph data. Just add your links and deploy.
+
+[Magic Convert](https://once-ui.com/products/magic-convert) (PRO): Conversion-optimized landing page and dashboard template.
+
+[Magic Agent](https://once-ui.com/products/magic-agent) (PRO): Deployment-ready AI agent built with the Vercel AI SDK.
+
+[Magic Store](https://once-ui.com/products/magic-store) (PRO): Ecommerce storefront that lets you sell digital and physical products.
+
+[Once UI Blocks](https://once-ui.com/blocks) (PRO): Copy-paste pre-designed blocks and deploy fully-functional sites with lightning speed.
+
+## Design
+
+The design counterpart of the Once UI system is available [here](https://once-ui.com/figma).
+
+## Get started
+
+Clone the starter template from GitHub:
+```bash
+git clone https://github.com/once-ui-system/nextjs-starter.git
+```
 
 ## Creators
 
-Lorant One: [Threads](https://www.threads.net/@lorant.one) / [LinkedIn](https://www.linkedin.com/in/lorant-one/)
+Connect with us!
 
-## Get involved
+**Lorant One**: [Site](https://lorant.one) / [Threads](https://www.threads.net/@lorant.one) / [LinkedIn](https://www.linkedin.com/in/lorant-one/)
 
-- Join the Design Engineers Club on [Discord](https://discord.com/invite/5EyAQ4eNdS) and share your project with us!
-- Deployed your docs? Share it on the [Once UI Hub](https://once-ui.com/hub) too! We feature our favorite apps on our landing page.
+**Zsofia Komaromi**: [Site](https://zsofia.pro) / [Threads](https://www.threads.net/@zsofia_kom) / [LinkedIn](https://www.linkedin.com/in/zsofiakomaromi/)
 
-## VibeCircles Docs
+## Become a Oncer
 
-This project is built with [Magic Docs](https://once-ui.com/products/magic-docs). Build your own documentation with Magic Docs for free!
+![Design Engineers Club](https://docs.once-ui.com/images/docs/vibe-coding-dark.jpg)
+
+Join the [Design Engineers Club](https://discord.com/invite/5EyAQ4eNdS) on Discord to connect with us and share your projects.
+
+Found a bug? Report it [here](https://github.com/once-ui-system/nextjs-starter/issues/new?labels=bug&template=bug_report.md). Got a feature request? Submit it [here](https://github.com/once-ui-system/nextjs-starter/issues/new?labels=feature%20request&template=feature_request.md).
+
+Please use the Once UI Core [GitHub repository](https://github.com/once-ui-system/core) for design system contributions.
+
+## Sponsors
+
+Once UI is an indie project. [Sponsor us](https://github.com/sponsors/once-ui-system) and get featured on our site!
 
 ## License
 
-Distributed under the CC BY-NC 4.0 License.
-- Attribution is required.
-- Commercial usage is not allowed.
-- You can extend the license to [Dopler CC](https://dopler.app/license) by purchasing a [Once UI Pro](https://once-ui.com/pricing) license.
+Distributed under the MIT License. See `LICENSE.txt` for more information.
 
-See `LICENSE.txt` for more information.
-
-## Deploy with Vercel
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fonce-ui-system%2Fmagic-docs&project-name=magic-docs&repository-name=magic-docs&redirect-url=https%3A%2F%2Fgithub.com%2Fonce-ui-system%2Fmagic-docs&demo-title=Magic%20Docs&demo-description=Showcase%20your%20designers%20or%20developer%20portfolio&demo-url=https%3A%2F%2Fdemo.magic-docs.com&demo-image=%2F%2Fraw.githubusercontent.com%2Fonce-ui-system%2Fmagic-docs%2Fmain%2Fpublic%2Fimages%2Fcover.jpg)
+## Deploy to Vercel
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fonce-ui-system%2Fnextjs-starter&project-name=nextjs-starter&repository-name=nextjs-starter&redirect-url=https%3A%2F%2Fgithub.com%2Fonce-ui-system%2Fnextjs-starter&demo-title=Next.js%20Starter&demo-description=Showcase%20your%20designers%20or%20developer%20portfolio&demo-url=https%3A%2F%2Fdemo.nextjs-starter.com&demo-image=%2F%2Fraw.githubusercontent.com%2Fonce-ui-system%2Fnextjs-starter%2Fmain%2Fpublic%2Fimages%2Fog%2Fhome.jpg)
