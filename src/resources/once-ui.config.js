@@ -167,4 +167,24 @@ const schema = {
   ],
 };
 
-export { baseURL, fonts, style, meta, schema, social, effects, dataStyle };
+// routes configuration
+const routes = [
+  {
+    path: "/",
+    title: meta.home.title,
+    description: meta.home.description,
+  },
+  // Add more routes here as needed
+];
+
+// layout configuration
+const layout = {
+  header: {
+    show: true,
+  },
+  footer: {
+    show: true,
+  },
+};
+
+export { baseURL, fonts, style, meta, schema, social, effects, dataStyle, routes, layout };

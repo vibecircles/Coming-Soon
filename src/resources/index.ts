@@ -1,16 +1,13 @@
 export {
-  effects,
-  style,
-  layout,
   baseURL,
-  social,
-  schema,
+  fonts,
+  style,
   meta,
+  schema,
+  social,
+  effects,
+  dataStyle,
   routes,
-  dataStyle
-} from "@/resources/once-ui.config";
+  layout,
+} from './once-ui.config';
 
-export {
-  roadmap,
-  task
-} from "@/resources/roadmap";
