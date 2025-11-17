@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import {
   Heading,
   Text,
@@ -959,6 +961,8 @@ export default function Home() {
           </Column>
         </Column>
       </div>
+      <Analytics />
+      <SpeedInsights />
     </>
   );
 }
