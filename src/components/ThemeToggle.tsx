@@ -1,113 +1,76 @@
 "use client";
 
-import { useState, useEffect, useCallback, useTransition } from "react";
-import { FaSun, FaMoon } from "react-icons/fa6";
-import "./ThemeToggle.css";
+import { useState, useEffect } from "react";
+import { HiOutlineSun, HiOutlineMoon } from "react-icons/hi2";
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
   const [mounted, setMounted] = useState(false);
-  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     setMounted(true);
-    
-    // Get current theme from localStorage or DOM
-    const getCurrentTheme = () => {
-      const savedTheme = localStorage.getItem('data-theme');
-      const currentTheme = savedTheme || 
-        (typeof window !== 'undefined' && document.documentElement.getAttribute('data-theme')) || 
-        'dark';
-      
-      // If theme is 'system', resolve it
-      let resolvedTheme: 'dark' | 'light' = 'dark';
-      if (currentTheme === 'system' || !currentTheme) {
-        resolvedTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      } else {
-        resolvedTheme = currentTheme as 'dark' | 'light';
-      }
-      
-      return resolvedTheme;
-    };
-    
-    setTheme(getCurrentTheme());
-    
-    // Listen for storage changes (when theme is changed in another tab)
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'data-theme') {
-        const newTheme = getCurrentTheme();
-        startTransition(() => {
-          setTheme(newTheme);
-        });
-        if (typeof window !== 'undefined') {
-          document.documentElement.setAttribute('data-theme', newTheme);
-        }
-      }
-    };
-    
-    // Listen for DOM attribute changes (when theme is changed via script)
-    const observer = new MutationObserver(() => {
-      const newTheme = getCurrentTheme();
-      startTransition(() => {
-        setTheme((prevTheme) => {
-          if (newTheme !== prevTheme) {
-            return newTheme;
-          }
-          return prevTheme;
-        });
-      });
-    });
-    
-    if (typeof window !== 'undefined') {
-      window.addEventListener('storage', handleStorageChange);
-      observer.observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ['data-theme']
-      });
-      
-      return () => {
-        window.removeEventListener('storage', handleStorageChange);
-        observer.disconnect();
-      };
+    // Get initial theme from document
+    const root = document.documentElement;
+    const currentTheme = root.getAttribute("data-theme") as "light" | "dark" | null;
+    if (currentTheme && (currentTheme === "light" || currentTheme === "dark")) {
+      setTheme(currentTheme);
+    } else {
+      // Check system preference
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      setTheme(prefersDark ? "dark" : "light");
     }
   }, []);
 
-  const toggleTheme = useCallback(() => {
-    startTransition(() => {
-      setTheme((prevTheme) => {
-        const newTheme = prevTheme === 'dark' ? 'light' : 'dark';
-        
-        // Update DOM immediately for instant feedback
-        if (typeof window !== 'undefined') {
-          document.documentElement.setAttribute('data-theme', newTheme);
-          localStorage.setItem('data-theme', newTheme);
-        }
-        
-        return newTheme;
-      });
-    });
-  }, []);
+  const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+    
+    // Update document attribute
+    document.documentElement.setAttribute("data-theme", newTheme);
+    
+    // Save to localStorage
+    localStorage.setItem("data-theme", newTheme);
+  };
 
-  // Prevent hydration mismatch
-  if (!mounted) {
-    return null;
-  }
+  if (!mounted) return null;
 
-  const isDark = theme === 'dark';
-  
   return (
     <button
-      type="button"
       onClick={toggleTheme}
-      aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
-      className={`theme-toggle ${isDark ? 'theme-toggle-dark' : 'theme-toggle-light'}`}
+      aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
+      style={{
+        position: "fixed",
+        top: "24px",
+        right: "24px",
+        zIndex: 1000,
+        width: "48px",
+        height: "48px",
+        borderRadius: "12px",
+        border: "none",
+        background: "var(--neutral-alpha-medium)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        color: "var(--neutral-on-background-strong)",
+        cursor: "pointer",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: "20px",
+        transition: "all 0.3s ease",
+        transform: "translateZ(0)",
+        willChange: "transform",
+        backfaceVisibility: "hidden",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.background = "var(--neutral-alpha-strong)";
+        e.currentTarget.style.transform = "scale(1.1)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.background = "var(--neutral-alpha-medium)";
+        e.currentTarget.style.transform = "scale(1)";
+      }}
     >
-      {theme === 'dark' ? (
-        <FaSun className="theme-toggle-icon" />
-      ) : (
-        <FaMoon className="theme-toggle-icon" />
-      )}
+      {theme === "dark" ? <HiOutlineSun /> : <HiOutlineMoon />}
     </button>
   );
 }
-

@@ -1,50 +1,85 @@
 "use client";
 
-import { 
-  FaTwitter, 
-  FaInstagram, 
-  FaTiktok, 
-  FaFacebook,
-  FaThreads,
-  FaBookOpen,
-} from "react-icons/fa6";
-import "./SocialMediaIcons.css";
+import { FaXTwitter, FaLinkedin, FaDiscord } from "react-icons/fa6";
+import { social } from "@/resources/once-ui.config";
 
 export function SocialMediaIcons() {
-  const socialLinks = [
-    { name: "facebook", icon: FaFacebook, url: "https://www.facebook.com/profile.php?id=61577760104699", color: "rgba(24, 119, 242, 0.8)", gradient: "linear-gradient(135deg, rgba(24, 119, 242, 0.3) 0%, rgba(24, 119, 242, 0.1) 100%)" },
-    { name: "instagram", icon: FaInstagram, url: "https://www.instagram.com/vibecircles/", color: "rgba(225, 48, 108, 0.8)", gradient: "linear-gradient(135deg, rgba(225, 48, 108, 0.3) 0%, rgba(131, 58, 180, 0.3) 50%, rgba(253, 193, 7, 0.2) 100%)" },
-    { name: "threads", icon: FaThreads, url: "https://www.threads.com/@vibecircles", color: "rgba(0, 0, 0, 0.8)", gradient: "linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.1) 100%)" },
-    { name: "twitter", icon: FaTwitter, url: "https://x.com/vibecircles", color: "rgba(29, 161, 242, 0.8)", gradient: "linear-gradient(135deg, rgba(29, 161, 242, 0.3) 0%, rgba(29, 161, 242, 0.1) 100%)" },
-    { name: "tiktok", icon: FaTiktok, url: "https://www.tiktok.com/@vibecircles", color: "rgba(0, 242, 234, 0.8)", gradient: "linear-gradient(135deg, rgba(0, 242, 234, 0.3) 0%, rgba(255, 0, 80, 0.3) 100%)" },
-    { name: "docs", icon: FaBookOpen, url: "https://docs.vibescircles.co.za", color: "rgba(99, 102, 241, 0.8)", gradient: "linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(168, 85, 247, 0.3) 50%, rgba(236, 72, 153, 0.2) 100%)" },
+  const icons = [
+    {
+      name: "Twitter",
+      icon: FaXTwitter,
+      href: social.twitter,
+      color: "var(--brand-on-background-strong)",
+    },
+    {
+      name: "LinkedIn",
+      icon: FaLinkedin,
+      href: social.linkedin,
+      color: "var(--brand-on-background-strong)",
+    },
+    {
+      name: "Discord",
+      icon: FaDiscord,
+      href: social.discord,
+      color: "var(--brand-on-background-strong)",
+    },
   ];
 
   return (
-    <div className="social-icons-container">
-      {socialLinks.map((social, index) => {
-        const Icon = social.icon;
-        
+    <div
+      className="fade-in-up"
+      style={{
+        display: "flex",
+        gap: "16px",
+        alignItems: "center",
+        justifyContent: "center",
+        animationDelay: "0.6s",
+        animationFillMode: "both",
+      }}
+    >
+      {icons.map((item) => {
+        const Icon = item.icon;
         return (
           <a
-            key={social.name}
-            href={social.url}
+            key={item.name}
+            href={item.href}
             target="_blank"
             rel="noopener noreferrer"
-            className={`social-icon social-icon-${social.name}`}
+            aria-label={`Visit our ${item.name} page`}
+            className="social-icon"
             style={{
-              '--social-color': social.color,
-              '--social-gradient': social.gradient,
-              '--animation-delay': `${index * 0.1}s`,
-            } as React.CSSProperties}
+              width: "56px",
+              height: "56px",
+              borderRadius: "14px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "var(--neutral-alpha-medium)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+              border: "1px solid var(--neutral-alpha-weak)",
+              color: item.color,
+              textDecoration: "none",
+              transition: "all 0.3s ease",
+              transform: "translateZ(0)",
+              willChange: "transform",
+              backfaceVisibility: "hidden",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "var(--neutral-alpha-strong)";
+              e.currentTarget.style.transform = "scale(1.1) translateZ(0)";
+              e.currentTarget.style.borderColor = "var(--brand-alpha-medium)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "var(--neutral-alpha-medium)";
+              e.currentTarget.style.transform = "scale(1) translateZ(0)";
+              e.currentTarget.style.borderColor = "var(--neutral-alpha-weak)";
+            }}
           >
-            <div className="social-icon-shimmer" />
-            <div className="social-icon-glow" />
-            <Icon className="social-icon-svg" />
+            <Icon style={{ fontSize: "24px" }} />
           </a>
         );
       })}
     </div>
   );
 }
-

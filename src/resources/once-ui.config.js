@@ -5,34 +5,28 @@ const baseURL = "https://vibecircles.com";
 import { Geist } from "next/font/google";
 import { Geist_Mono } from "next/font/google";
 
-// Optimized font loading for better FCP - Next.js automatically preloads fonts
-// adjustFontFallback prevents layout shift by matching font metrics
 const heading = Geist({
   variable: "--font-heading",
   subsets: ["latin"],
-  display: "swap", // Swap to system font immediately, then swap in custom font
-  adjustFontFallback: true, // Better CLS prevention - matches font metrics
+  display: "swap",
 });
 
 const body = Geist({
   variable: "--font-body",
   subsets: ["latin"],
   display: "swap",
-  adjustFontFallback: true, // Better CLS prevention
 });
 
 const label = Geist({
   variable: "--font-label",
   subsets: ["latin"],
   display: "swap",
-  adjustFontFallback: true,
 });
 
 const code = Geist_Mono({
   variable: "--font-code",
   subsets: ["latin"],
   display: "swap",
-  adjustFontFallback: true,
 });
 
 const fonts = {
